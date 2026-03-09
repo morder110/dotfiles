@@ -1,0 +1,20 @@
+resize_algorithm = none
+hotspot_x = 0.50
+hotspot_y = 0.88
+
+define_size = 16, bottom_side_000.png, 40
+define_size = 20, bottom_side_001.png, 40
+define_size = 22, bottom_side_002.png, 40
+define_size = 24, bottom_side_003.png, 40
+define_size = 28, bottom_side_004.png, 40
+define_size = 32, bottom_side_005.png, 40
+define_size = 40, bottom_side_006.png, 40
+define_size = 48, bottom_side_007.png, 40
+define_size = 56, bottom_side_008.png, 40
+define_size = 64, bottom_side_009.png, 40
+define_size = 72, bottom_side_010.png, 40
+define_size = 80, bottom_side_011.png, 40
+define_size = 88, bottom_side_012.png, 40
+define_size = 96, bottom_side_013.png, 40
+
+define_override = s-resize

@@ -1,0 +1,23 @@
+resize_algorithm = none
+hotspot_x = 0.44
+hotspot_y = 0.25
+
+define_size = 16, grabbing_000.png, 40
+define_size = 20, grabbing_001.png, 40
+define_size = 22, grabbing_002.png, 40
+define_size = 24, grabbing_003.png, 40
+define_size = 28, grabbing_004.png, 40
+define_size = 32, grabbing_005.png, 40
+define_size = 40, grabbing_006.png, 40
+define_size = 48, grabbing_007.png, 40
+define_size = 56, grabbing_008.png, 40
+define_size = 64, grabbing_009.png, 40
+define_size = 72, grabbing_010.png, 40
+define_size = 80, grabbing_011.png, 40
+define_size = 88, grabbing_012.png, 40
+define_size = 96, grabbing_013.png, 40
+
+define_override = dnd-none
+define_override = fcf21c00b30f7e3f83fe0dfd12e71cff
+define_override = dnd-move
+define_override = closedhand

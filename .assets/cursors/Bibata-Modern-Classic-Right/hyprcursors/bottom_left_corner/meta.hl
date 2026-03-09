@@ -1,0 +1,20 @@
+resize_algorithm = none
+hotspot_x = 0.06
+hotspot_y = 0.88
+
+define_size = 16, bottom_left_corner_000.png, 40
+define_size = 20, bottom_left_corner_001.png, 40
+define_size = 22, bottom_left_corner_002.png, 40
+define_size = 24, bottom_left_corner_003.png, 40
+define_size = 28, bottom_left_corner_004.png, 40
+define_size = 32, bottom_left_corner_005.png, 40
+define_size = 40, bottom_left_corner_006.png, 40
+define_size = 48, bottom_left_corner_007.png, 40
+define_size = 56, bottom_left_corner_008.png, 40
+define_size = 64, bottom_left_corner_009.png, 40
+define_size = 72, bottom_left_corner_010.png, 40
+define_size = 80, bottom_left_corner_011.png, 40
+define_size = 88, bottom_left_corner_012.png, 40
+define_size = 96, bottom_left_corner_013.png, 40
+
+define_override = sw-resize

@@ -1,0 +1,22 @@
+resize_algorithm = none
+hotspot_x = 0.50
+hotspot_y = 0.50
+
+define_size = 16, bd_double_arrow_000.png, 40
+define_size = 20, bd_double_arrow_001.png, 40
+define_size = 22, bd_double_arrow_002.png, 40
+define_size = 24, bd_double_arrow_003.png, 40
+define_size = 28, bd_double_arrow_004.png, 40
+define_size = 32, bd_double_arrow_005.png, 40
+define_size = 40, bd_double_arrow_006.png, 40
+define_size = 48, bd_double_arrow_007.png, 40
+define_size = 56, bd_double_arrow_008.png, 40
+define_size = 64, bd_double_arrow_009.png, 40
+define_size = 72, bd_double_arrow_010.png, 40
+define_size = 80, bd_double_arrow_011.png, 40
+define_size = 88, bd_double_arrow_012.png, 40
+define_size = 96, bd_double_arrow_013.png, 40
+
+define_override = c7088f0f3e6c8088236ef8e1e3e70000
+define_override = size_fdiag
+define_override = nwse-resize

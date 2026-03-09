@@ -1,0 +1,19 @@
+resize_algorithm = none
+hotspot_x = 0.75
+hotspot_y = 0.06
+
+define_size = 16, pointer-move_000.png, 40
+define_size = 20, pointer-move_001.png, 40
+define_size = 22, pointer-move_002.png, 40
+define_size = 24, pointer-move_003.png, 40
+define_size = 28, pointer-move_004.png, 40
+define_size = 32, pointer-move_005.png, 40
+define_size = 40, pointer-move_006.png, 40
+define_size = 48, pointer-move_007.png, 40
+define_size = 56, pointer-move_008.png, 40
+define_size = 64, pointer-move_009.png, 40
+define_size = 72, pointer-move_010.png, 40
+define_size = 80, pointer-move_011.png, 40
+define_size = 88, pointer-move_012.png, 40
+define_size = 96, pointer-move_013.png, 40
+
