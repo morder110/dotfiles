@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Oxygen Not Included
+Comment=Play this game on Steam
+Exec=steam steam://rungameid/457140
+Icon=steam_icon_457140
+Terminal=false
+Type=Application
+Categories=Game;

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=DELTARUNE (Chapter 1 & 2 DEMO)
+Comment=Play this game on Steam
+Exec=steam steam://rungameid/1690940
+Icon=steam_icon_1690940
+Terminal=false
+Type=Application
+Categories=Game;

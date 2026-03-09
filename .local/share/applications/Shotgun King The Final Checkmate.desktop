@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Shotgun King: The Final Checkmate
+Comment=Play this game on Steam
+Exec=steam steam://rungameid/1972440
+Icon=steam_icon_1972440
+Terminal=false
+Type=Application
+Categories=Game;

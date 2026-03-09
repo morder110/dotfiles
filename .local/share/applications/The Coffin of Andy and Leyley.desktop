@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=The Coffin of Andy and Leyley
+Comment=Play this game on Steam
+Exec=steam steam://rungameid/2378900
+Icon=steam_icon_2378900
+Terminal=false
+Type=Application
+Categories=Game;

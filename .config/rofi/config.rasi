@@ -1,0 +1,38 @@
+configuration {
+	modi: "drun,window";
+	terminal: "alacritty";
+	combi-modi: "drun,run,ssh";
+	combi-hide-mode-prefix: true;
+	drun-match-fields: "name,generic,exec,categories";
+
+	cycle: false;
+	levenshtein-sort: true;
+	matching: "fuzzy";
+	click-to-exit: true;
+
+	/*	ssh-client: "ssh";*/
+	/*	ssh-command: "{terminal} -e {ssh-client} {host}";*/
+	/*	run-command: "{cmd}";*/
+	/*	run-list-command: "";*/
+	/*	run-shell-command: "{terminal} -e {cmd}";*/
+	/*	window-command: "xkill -id {window}";*/
+	/*	window-match-fields: "all";*/
+	/*	drun-icon-theme: ;*/
+	/*	disable-history: false;*/
+	/*	sort: false;*/
+	/*	auto-select: false;*/
+	/*	parse-hosts: false;*/
+	/*	parse-known-hosts: true;*/
+	/*	tokenize: true;*/
+	/*	filter: ;*/
+	/*	separator-style: "dash";*/
+	/*	window-format: "{w}    {i}{c}   {t}";*/
+	/*	pid: "/run/user/1000/rofi.pid";*/
+	/*	display-windowcd: ;*/
+	/*	display-ssh: ;*/
+	/*	display-combi: ;*/
+	/*	display-keys: ;*/
+}
+
+@import "~/.config/rofi/hyprkill/config.rasi"
+@theme "~/.config/rofi/hyprkill/theme.rasi"

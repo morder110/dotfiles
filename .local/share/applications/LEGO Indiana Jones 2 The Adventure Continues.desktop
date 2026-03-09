@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=LEGO® Indiana Jones™ 2: The Adventure Continues
+Comment=Play this game on Steam
+Exec=steam steam://rungameid/32450
+Icon=steam_icon_32450
+Terminal=false
+Type=Application
+Categories=Game;

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+    <mime-type type="application/x-mdm-package">
+        <comment>Muse Dash Modding Chart</comment>
+        <glob pattern="*.mdm" weight="100"/>
+        <icon name="application-x-mdm-package"/>
+        <sub-class-of type="application/zip"/>
+    </mime-type>
+</mime-info>

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Rogue Legacy 2
+Comment=Play this game on Steam
+Exec=steam steam://rungameid/1253920
+Icon=steam_icon_1253920
+Terminal=false
+Type=Application
+Categories=Game;

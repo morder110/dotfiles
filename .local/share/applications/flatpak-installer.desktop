@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=Flatpak Installer
+Exec=alacritty --hold -e flatpak install --from %u
+MimeType=application/vnd.flatpak;application/vnd.flatpak.ref;application/vnd.flatpak.repo;
+NoDisplay=true

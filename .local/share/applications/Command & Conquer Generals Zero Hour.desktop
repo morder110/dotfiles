@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Command & Conquer™ Generals Zero Hour
+Comment=Play this game on Steam
+Exec=steam steam://rungameid/2732960
+Icon=steam_icon_2732960
+Terminal=false
+Type=Application
+Categories=Game;

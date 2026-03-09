@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=GTFO
+Comment=Play this game on Steam
+Exec=steam steam://rungameid/493520
+Icon=steam_icon_493520
+Terminal=false
+Type=Application
+Categories=Game;

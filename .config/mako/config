@@ -1,0 +1,70 @@
+font=monospace 11
+anchor=top-right
+layer=overlay
+background-color=#1e1e1ecc
+text-color=#ffffffcc
+width=320
+padding=10
+border-size=3
+border-radius=5
+margin=15,15,15,15
+icons=1
+max-history=5
+default-timeout=8000
+markup=1
+
+[urgency=low]
+background-color=#333333cc
+border-color=#5e81ac
+background-color=#d8dee9
+
+[urgency=normal]
+background-color=#333333cc
+border-color=#88c0d0
+background-color=#d8dee9
+
+[urgency=critical]
+background-color=#333333cc
+border-color=#bf616a
+background-color=#eceff4
+default-timeout=0
+
+[icon=0]
+# WARNING
+background-color=#333333cc
+border-color=#d08770
+background-color=#ebcb8b
+#icon=/home/youruser/.local/share/icons/hyprnotify/warning.svg
+default-timeout=6000
+
+[icon="1"]
+# INFO
+border-color=#5e81ac
+background-color=#8fbcbb
+#icon=/home/youruser/.local/share/icons/hyprnotify/info.svg
+
+[icon="2"]
+# HINT
+border-color=#a3be8c
+background-color=#a3be8c
+#icon=/home/youruser/.local/share/icons/hyprnotify/hint.svg
+
+[icon="3"]
+# ERROR
+border-color=#bf616a
+background-color=#bf616a
+#icon=/home/youruser/.local/share/icons/hyprnotify/error.svg
+default-timeout=0
+
+[icon="4"]
+# CONFUSED
+border-color=#b48ead
+background-color=#ebcb8b
+#icon=/home/youruser/.local/share/icons/hyprnotify/confused.svg
+
+[icon="5"]
+# OK
+border-color=#a3be8c
+background-color=#a3be8c
+#icon=/home/youruser/.local/share/icons/hyprnotify/ok.svg
+

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=TEVI
+Comment=Play this game on Steam
+Exec=steam steam://rungameid/2230650
+Icon=steam_icon_2230650
+Terminal=false
+Type=Application
+Categories=Game;

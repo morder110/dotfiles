@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Peggle Nights
+Comment=Play this game on Steam
+Exec=steam steam://rungameid/3540
+Icon=steam_icon_3540
+Terminal=false
+Type=Application
+Categories=Game;

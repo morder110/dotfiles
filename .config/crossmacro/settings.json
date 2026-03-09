@@ -1,0 +1,16 @@
+{
+  "enableTrayIcon": true,
+  "playbackSpeed": 1.9000000000000001,
+  "isLooping": true,
+  "loopCount": 10,
+  "loopDelayMs": 0,
+  "countdownSeconds": 0,
+  "isMouseRecordingEnabled": true,
+  "isKeyboardRecordingEnabled": true,
+  "forceRelativeCoordinates": true,
+  "skipInitialZeroZero": true,
+  "enableTextExpansion": false,
+  "checkForUpdates": false,
+  "logLevel": "Debug",
+  "theme": "Classic"
+}

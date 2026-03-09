@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Rider 2025.3.2
+Exec="/home/morder/.local/share/JetBrains/Toolbox/apps/rider/bin/rider" %u
+Version=1.0
+Type=Application
+Categories=Development;IDE;
+Terminal=false
+Icon=/home/morder/.local/share/JetBrains/Toolbox/dotDesktopIcons/jetbrains-rider-873dfeba-638f-4491-812a-c44abc04165a.desktop.icon.svg
+Comment=All-in-one IDE for .NET and game development
+StartupWMClass=jetbrains-rider
+StartupNotify=true

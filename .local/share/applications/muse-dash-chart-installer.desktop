@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Muse Dash Chart Installer
+# TODO: Make this not as hard coded
+Exec=sh -c "cp %f '/mnt/data/Games/Steam/steamapps/common/Muse Dash/Custom_Albums/' && notify-send -u low -t 5000 'Muse Dash' 'Chart imported successfully' || notify-send -u critical 'Muse Dash' 'Chart import Failed. Check permissions or directory path'"
+# FIXED: Added the 'application/' prefix
+MimeType=application/x-mdm-package;
+NoDisplay=true

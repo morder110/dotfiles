@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Calm Down, Stalin
+Comment=Play this game on Steam
+Exec=steam steam://rungameid/502940
+Icon=steam_icon_502940
+Terminal=false
+Type=Application
+Categories=Game;

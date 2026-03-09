@@ -1,0 +1,133 @@
+* {
+    /* Variables */
+    text-color:#ffffff;
+    text-color-selected: #0f0f0f;
+
+    background-color: rgba(0, 0, 0, 0.6);
+    background-color-selected: rgb(255, 255, 255, 0.9);
+
+    text-color-active: @text-color;
+    text-color-active-selected: @text-color-selected;
+
+    background-color-active: red;
+    background-color-active-selected: blue;
+
+    background-color-window: rgba(0, 0, 0, 0.7);
+
+    transparent-color: rgba(0, 0, 0, 0.7);
+    invisible-color: rgba(0, 0, 0, 0);
+    error-color: rgba(255, 0, 0, 1); /* If this color shows, we have not set up that color yet */
+    test: rgba(0, 255, 0, 1);
+
+    /* Actual properties */
+    font:"MS Sans Serif 14";
+    border-radius: 2px;
+    border-color: rgba(92, 92, 92, 0.6);
+}
+
+#window {
+    width: 25%;
+    background-color: @background-color-window;
+    border:           0;
+    padding:          0;
+}
+
+/* Main container inside window */
+#mainbox {
+    children: [inputbar, message, listview];
+}
+
+/* Messages such as the error message. Might not be needed
+#message {
+    background-color: @error-color;
+    border:       2px 0px 0px ;
+    border-color: @border-color;
+    padding:      1px ;
+}
+
+#message {
+    expand: true;
+    background-color: @dark-grey;
+    children: [textbox];
+}
+
+
+#textbox {
+    expand: true;
+    padding: 3px;
+    background-color: @red-alt;
+    text-color: @dark-grey;
+}
+*/
+
+#inputbar {
+    margin: 8px 8px 3px 8px;
+    background-color: @border-color; /* Same as border for small contrast to list */
+    children: [prompt, entry];
+}
+
+#prompt {
+    padding: 5px;
+    margin: 2px;
+    background-color: @background-color-window;
+    text-color: @text-color;
+}
+
+#entry {
+    padding: 5px;
+    margin: 2px;
+    background-color: @background-color-window;
+    text-color: @text-color;
+}
+
+/* Row container */
+#listview {
+    lines: 10;
+    padding: 8px;
+    border: 2px;
+    margin: 8px;
+    background-color: rgba(0, 0, 0, 0);
+    children: [element];
+}
+
+/* Each row */
+#element {
+    border:  0;
+    padding: 2px;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+#element.normal {
+    background-color: inherit;
+    text-color: @text-color;
+}
+
+#element.selected {
+    background-color: @background-color-selected;
+    text-color: @text-color-selected;
+}
+
+/* Current active/focus window */
+#element.normal.active {
+    background-color: @background-color-active;
+    text-color: @text-color-active;
+}
+
+#element.selected.active {
+    background-color: @background-color-active-selected;
+    text-color: @text-color-active-selected;
+}
+
+#element-text {
+    size: 1em;
+    padding: 4px;
+    margin: 0px;
+    text-color: inherit;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+#element-icon {
+    padding: 4px;
+    margin: 1px;
+    size: 1em;
+}

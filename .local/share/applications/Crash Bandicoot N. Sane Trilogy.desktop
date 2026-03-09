@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Crash Bandicoot™ N. Sane Trilogy
+Comment=Play this game on Steam
+Exec=steam steam://rungameid/731490
+Icon=steam_icon_731490
+Terminal=false
+Type=Application
+Categories=Game;

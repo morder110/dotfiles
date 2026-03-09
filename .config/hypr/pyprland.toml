@@ -1,0 +1,15 @@
+[pyprland]
+
+plugins = [
+    "scratchpads",
+    "magnify",
+]
+
+[magnify]
+duration = 0
+
+[scratchpads.term]
+animatino = false # "fromTop"
+command = "alacritty --class alacritty-dropterm"
+class = "alacritty-dropterm"
+size = "60% 55%"

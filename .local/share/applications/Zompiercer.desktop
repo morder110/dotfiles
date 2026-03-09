@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Zompiercer
+Comment=Play this game on Steam
+Exec=steam steam://rungameid/1262460
+Icon=steam_icon_1262460
+Terminal=false
+Type=Application
+Categories=Game;

@@ -1,0 +1,9 @@
+configuration {
+    show-icons: true;
+	sidebar-mode: false;
+	hide-scrollbar: true;
+	display-drun: " App ";
+	display-run: " Cmd ";
+	display-window: " Win ";
+	display-ssh: " SSH ";
+}

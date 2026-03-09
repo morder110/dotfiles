@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Broforce
+Comment=Play this game on Steam
+Exec=steam steam://rungameid/274190
+Icon=steam_icon_274190
+Terminal=false
+Type=Application
+Categories=Game;

@@ -1,0 +1,30 @@
+{
+    "label" : "lock",
+    "action" : "sh $HOME/.config/hypr/scripts/lock.sh",
+    "keybind" : "l"
+}
+{
+    "label" : "hibernate",
+    "action" : "systemctl hibernate",
+    "keybind" : "h"
+}
+{
+    "label" : "logout",
+    "action" : "sh $HOME/.config/hypr/scripts/logout.sh",
+    "keybind" : "q"
+}
+{
+    "label" : "reboot",
+    "action" : "systemctl reboot --now",
+    "keybind" : "r"
+}
+{
+    "label" : "suspend",
+    "action" : "sh $HOME/.config/hypr/scripts/sleep.sh",
+    "keybind" : "z"
+}
+{
+    "label" : "shutdown",
+    "action" : "systemctl poweroff --now",
+    "keybind" : "s"
+}

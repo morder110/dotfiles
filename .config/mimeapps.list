@@ -1,0 +1,189 @@
+# All filetype names: /usr/share/mime/types
+# Check active setting for filetype: xdg-mime query default "type/x-name"
+# Test filetype name: xdg-mime query filetype "filename.ext"
+
+# Custom fieltype rules: ~/.local/share/mime/packages
+# Reload rules: update-mime-database ~/.local/share/mime
+
+# Custom desktop files: ~/.local/share/applications
+# Reload desktop files: update-desktop-database ~/.local/share/applications
+
+[Default Applications]
+
+# --- Web Browser ---
+# Handles http links
+x-scheme-handler/http=waterfox.desktop
+# Handles https links
+x-scheme-handler/https=waterfox.desktop
+# Handles "about:" links
+x-scheme-handler/about=waterfox.desktop
+# Handles unknown links (fallback)
+x-scheme-handler/unknown=waterfox.desktop
+
+# --- File Manager ---
+# "Open Folder" action
+inode/directory=thunar.desktop
+
+# --- Zipped/Compressed Files ---
+application/zip=ark.desktop
+
+# Tarballs (compressed and uncompressed)
+application/x-tar=ark.desktop
+application/gzip=ark.desktop
+application/x-gzip=ark.desktop
+application/x-bzip2=ark.desktop
+application/x-xz=ark.desktop
+application/x-lzip=ark.desktop
+application/x-lzma=ark.desktop
+application/x-archive=ark.desktop
+
+application/x-7z-compressed=ark.desktop
+application/vnd.rar=ark.desktop
+
+# --- Code/Text Editor ---
+text/plain=code.desktop
+
+text/html=code.desktop
+text/css=code.desktop
+text/x-scss=code.desktop
+text/x-sass=code.desktop
+application/javascript=code.desktop
+
+text/x-csrc=code.desktop
+text/x-c++src=code.desktop
+text/x-csharp=code.desktop
+text/x-chdr=code.desktop
+text/x-cmake=code.desktop
+
+text/x-python=code.desktop
+text/x-lua=code.desktop
+text/x-r=code.desktop
+text/x-ruby=code.desktop
+text/x-go=code.desktop
+text/rust=code.desktop
+text/x-java=code.desktop
+# application/x-java=code.desktop
+application/x-php=code.desktop
+application/x-shellscript=code.desktop
+application/json=code.desktop
+application/xml=code.desktop
+text/yaml=code.desktop
+application/toml=code.desktop
+
+application/sql=code.desktop
+text/x-sql=code.desktop
+
+text/csv=code.desktop
+text/tab-separated-values=code.desktop
+
+text/markdown=obsidian.desktop
+text/x-readme=code.desktop
+
+
+# --- Images ---
+image/jpeg=imv.desktop
+image/png=imv.desktop
+image/gif=imv.desktop
+image/webp=imv.desktop
+image/svg+xml=imv.desktop
+
+# Catch-all
+image/*=imv.desktop
+
+# --- Video/Audio ---
+video/mp4=mpv.desktop
+video/mkv=mpv.desktop
+video/ogg=mpv.desktop
+video/webm=mpv.desktop
+
+# Catch-all
+video/*=mpv.desktop
+
+audio/mpeg=mpv.desktop
+audio/webm=mpv.desktop
+audio/x-flac+ogg=mpv.desktop
+audio/vnd.wave=mpv.desktop
+audio/x-wav=mpv.desktop
+audio/wav=mpv.desktop
+
+# Catch-all
+audio/*=mpv.desktop
+
+# --- PDF ---
+application/pdf=waterfox.desktop
+
+# --- Email (mailto: links) ---
+x-scheme-handler/mailto=thunderbird.desktop
+
+# --- Torrent Magnet Links ---
+x-scheme-handler/magnet=transmission-gtk.desktop
+
+# --- Flatpak ---
+application/vnd.flatpak=flatpak-installer.desktop
+application/vnd.flatpak.ref=flatpak-installer.desktop
+application/vnd.flatpak.repo=flatpak-installer.desktop
+
+# --- Font ---
+# font/collection
+# font/otf
+# font/ttf
+# font/woff
+# font/woff2
+# application/font-woff
+# application/font-tdpfr
+# application/vnd.ms-fontobject
+# application/x-font-afm
+# application/x-font-bdf
+# application/x-font-dos
+# application/x-font-framemaker
+# application/x-font-libgrx
+# application/x-font-linux-psf
+# application/x-font-pcf
+# application/x-font-snf
+# application/x-font-speedo
+# application/x-font-sunos-news
+# application/x-font-tex
+# application/x-font-tex-tfm
+# application/x-font-ttx
+# application/x-font-type1
+# application/x-font-vfont
+# application/x-gz-font-linux-psf
+
+# --- Osu ---
+application/x-osu-beatmap-archive=sh.ppy.osu.desktop
+application/x-osu-skin-archive=sh.ppy.osu.desktop
+application/x-osu-replay=sh.ppy.osu.desktop
+application/x-osu-beatmap=sh.ppy.osu.desktop
+application/x-osu-storyboard=sh.ppy.osu.desktop
+
+# --- Muse dash ---
+application/x-mdm-package=muse-dash-chart-installer.desktop
+
+# --- Other ---
+x-scheme-handler/discord=vesktop.desktop
+application/octet-stream=bless.desktop
+x-scheme-handler/jetbrains=jetbrains-toolbox.desktop
+x-scheme-handler/ror2mm=r2modman.desktop
+
+# ------------------------------------------------
+
+[Added Associations]
+# --- Web Browser ---
+text/html=waterfox.desktop
+
+x-scheme-handler/http=chromium.desktop
+x-scheme-handler/https=chromium.desktop
+x-scheme-handler/about=chromium.desktop
+x-scheme-handler/unknown=chromium.desktop
+text/html=chromium.desktop
+
+# --- Other ---
+application/octet-stream=bless.desktop;
+
+# Don't know how this works
+image/x-xcf=yazi.desktop;
+image/*=com.github.PintaProject.Pinta.desktop
+image/*=gimp.desktop
+image/*=waterfox.desktop
+
+text/markdown=obsidian.desktop

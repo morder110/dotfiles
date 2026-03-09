@@ -1,0 +1,70 @@
+* {
+	all: unset;
+	background-image: none;
+}
+
+window {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+/* Select whatever is containing the buttons */
+window > *:last-child > * {
+    /* TODO: Make the margin change based on the screen resolution (laptop vs desktop is the issue) */
+    margin: 20rem 40rem;
+    background-color: rgba(82, 82, 82, 0.150);
+}
+
+button {    
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 20%;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+/* button:focus, */
+button:active,
+button:hover {
+	background-color: rgba(51, 51, 51, 0.5);
+}
+
+#lock {
+    background-image: image(url("/home/morder/.assets/icons/misc/power/white-padlock.png"));
+}
+/* #lock:hover {
+    background-image: image(url("./icons/lock-hover.png"));
+} */
+
+#logout {
+    background-image: image(url("/home/morder/.assets/icons/misc/power/white-logout.png"));
+}
+/* #logout:hover {
+    background-image: image(url("./icons/logout-hover.png"));
+} */
+
+#suspend {
+    background-image: image(url("/home/morder/.assets/icons/misc/power/white-sleep.png"));
+}
+/* #suspend:hover {
+    background-image: image(url("./icons/sleep-hover.png"));
+} */
+
+#hibernate {
+    background-image: image(url("/home/morder/.assets/icons/misc/power/white-hibernate.png"));
+}
+/* #hibernate:hover {
+    background-image: image(url("./icons/hibernate-hover.png"));
+} */
+
+#reboot {
+    background-image: image(url("/home/morder/.assets/icons/misc/power/white-reboot.png"));
+}
+/* #reboot:hover {
+    background-image: image(url("./icons/restart-hover.png"));
+} */
+
+#shutdown {
+    background-image: image(url("/home/morder/.assets/icons/misc/power/white-power.png"));
+}
+/* #shutdown:hover {
+    background-image: image(url("./icons/power-hover.png"));
+} */

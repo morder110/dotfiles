@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=LEGOⓇ Indiana Jones™: The Original Adventures
+Comment=Play this game on Steam
+Exec=steam steam://rungameid/32330
+Icon=steam_icon_32330
+Terminal=false
+Type=Application
+Categories=Game;

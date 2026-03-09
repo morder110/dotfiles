@@ -1,0 +1,195 @@
+* {
+    text-color: #0f0f0f;
+    text-color-selected:#ffffff;
+
+    background-color: rgba(0, 0, 0, 0.9);
+    background-color-selected: rgb(255, 255, 255, 0.9);
+
+    text-color-active: @text-color;
+    text-color-active-selected: @text-color-selected;
+
+    background-color-active: red;
+    background-color-active-selected: blue;
+
+    background-color-window: rgba(0, 0, 0, 0.7);
+
+    border-color: rgb(255, 255, 255, 0.9);
+
+    transparent-color: rgba(0, 0, 0, 0.7);
+    invisible-color: rgba(0, 0, 0, 0);
+    error-color: rgba(255, 0, 0, 1); /* If this color shows, we have not set up that color yet */
+    test: rgba(0, 255, 0, 1);
+
+    /* Settings */
+    selected-normal-foreground:  @primary-text; /* Selected menu text (drun and window) */
+    normal-foreground:           @secondary-text; /* Menu text (drun and window)*/
+    normal-background:           @secondary-background; /* Row background */
+    alternate-normal-background: @secondary-background; /* Alt row background */
+    selected-normal-background:  @primary-background; /* Selected row background */
+
+    active-background:           red; /* Focus window row */
+    selected-active-background:  blue; /* Selected row (is focused window) */
+
+    background:                  @transparent; /* Window background */
+    background-color:            @transparent; /* All backgrounds */
+    border-color:                @none; /* Window border */
+
+    lightfg:                     @error-color; /* Unknown */
+    spacing:                     2;
+    separatorcolor:              @error-color; /* Unknown */
+
+    foreground:                  @error-color; /* Unknown */
+
+    active-foreground:           @error-color; /* Unknown */
+    alternate-active-foreground: @error-color; /* Unknown */
+    selected-active-foreground:  @error-color; /* Unknown */
+    alternate-active-background: @error-color; /* Unknown */
+    alternate-normal-foreground: @error-color; /* Unknown */
+
+    selected-urgent-foreground:  @error-color; /* Unknown */
+    urgent-foreground:           @error-color; /* Unknown */
+    alternate-urgent-background: @error-color; /* Unknown */
+    urgent-background:           @error-color; /* Unknown */
+    selected-urgent-background:  @error-color; /* Unknown */
+    alternate-urgent-foreground: @error-color; /* Unknown */
+}
+
+#window {
+    background-color: @background-color-window;
+    border:           1;
+    padding:          5;
+}
+
+#mainbox {
+    border:  0;
+    padding: 0;
+}
+
+#message {
+    border:       2px 0px 0px ;
+    border-color: @border-color;
+    padding:      1px ;
+}
+
+#textbox {
+    text-color: @foreground;
+}
+
+#listview {
+    fixed-height: 0;
+    border:       0px 0px 0px ;
+    border-color: @border-color;
+    spacing:      2px ;
+    scrollbar:    true;
+    padding:      2px 0px 0px ;
+}
+
+#element {
+    border:  0;
+    padding: 1px;
+}
+
+#element.normal.normal {
+    background-color: @background-color;
+    text-color:       @text-color;
+}
+
+#element.selected.normal {
+    background-color: @selected-normal-background;
+    text-color:       @selected-normal-foreground;
+}
+
+#element.normal.active {
+    background-color: @active-background;
+    text-color:       @active-foreground;
+}
+
+#element.selected.active {
+    background-color: @selected-active-background;
+    text-color:       @selected-active-foreground;
+}
+
+#element.alternate.normal {
+    background-color: @alternate-normal-background;
+    text-color:       @alternate-normal-foreground;
+}
+
+
+    #element.normal.urgent {
+        background-color: @urgent-background;
+        text-color:       @urgent-foreground;
+    }
+#element.alternate.active {
+    background-color: @alternate-active-background;
+    text-color:       @alternate-active-foreground;
+}
+
+#element.selected.urgent {
+    background-color: @selected-urgent-background;
+    text-color:       @selected-urgent-foreground;
+}
+
+#element.alternate.urgent {
+    background-color: @alternate-urgent-background;
+    text-color:       @alternate-urgent-foreground;
+}
+
+#element-text {
+    text-color: inherit;
+}
+
+#scrollbar {
+    width:        4px ;
+    border:       0;
+    handle-color: @normal-foreground;
+    handle-width: 8px ;
+    padding:      0;
+}
+
+#sidebar {
+    border:       0px 0px 0px;
+    padding:      5px 0 0;
+    border-color: @separatorcolor;
+}
+
+#button {
+    spacing:    0;
+    text-color: @normal-foreground;
+}
+
+#button.selected {
+    background-color: @selected-normal-background;
+    text-color:       @selected-normal-foreground;
+}
+
+#inputbar {
+    spacing:    0;
+    text-color: @normal-foreground;
+    padding:    1px ;
+}
+
+#case-indicator {
+    spacing:    0;
+    text-color: @normal-foreground;
+}
+
+#entry {
+    spacing:    0;
+    text-color: @normal-foreground;
+}
+
+#prompt {
+    spacing:    0;
+    text-color: @normal-foreground;
+}
+
+#inputbar {
+    children:   [ prompt,textbox-prompt-colon,entry,case-indicator ];
+}
+
+#textbox-prompt-colon {
+    expand:     false;
+    str:        ":";
+    margin:     0px 0.3em 0em 0em ;
+    text-color: @normal-foreground;
+}

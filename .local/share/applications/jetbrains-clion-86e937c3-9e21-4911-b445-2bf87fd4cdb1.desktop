@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=CLion 2025.3.2
+Exec="/home/morder/.local/share/JetBrains/Toolbox/apps/clion/bin/clion" %u
+Version=1.0
+Type=Application
+Categories=Development;IDE;
+Terminal=false
+Icon=/home/morder/.local/share/JetBrains/Toolbox/dotDesktopIcons/jetbrains-clion-86e937c3-9e21-4911-b445-2bf87fd4cdb1.desktop.icon.svg
+Comment=A cross-platform C and C++ IDE
+StartupWMClass=jetbrains-clion
+StartupNotify=true
