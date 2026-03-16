@@ -17,6 +17,5 @@ case "$BOARD_SERIAL" in
 esac
 
 ln -sf $HOST_DEVICE.conf $HOME/.config/hypr/config/variables/active.conf
-ln -sf $HOST_DEVICE.conf $HOME/.config/hypr/config/devices/active.conf
 
 hyprctl reload &>/dev/null

@@ -1,10 +1,9 @@
 #!/bin/bash
 
-# Validate or correct the current state of the microphone LED
+# Validate and correct the current state of the microphone LED
 
-# TODO: Maybe change the hard coded 'micmute' string if this causes problems with other laptops.
+# TODO: Maybe change the hard coded 'platform::micmute' string if this causes problems with other laptops.
 
-# Set initial led status for microphone (laptop)
 MICROPHONE_DEVICE=${${$(brightnessctl -l | grep micmute | awk '{print $2}')%\'}#\'}
 if [ -n MICROPHONE_DEVICE ]; then
     wpctl set-mute @DEFAULT_SOURCE@ toggle

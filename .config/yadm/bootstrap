@@ -1,0 +1,9 @@
+#!/bin/bash
+
+MACHINE_ID=$(cat /etc/machine-id)
+if [[ "${MACHINE_ID}" = "2f709ee92a8d45d19c21ebdbc3b76844" ]]; then
+    yadm config local.hostname home-desktop
+elif [[ "${MACHINE_ID}" = "adfbb494b5c34576bbe476b6d901fcec" ]]; then
+    yadm config local.hostname lenovo-laptop
+fi
+

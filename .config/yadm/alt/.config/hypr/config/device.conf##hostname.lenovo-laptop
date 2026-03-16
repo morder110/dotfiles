@@ -9,5 +9,7 @@ gestures {
     workspace_swipe_forever=false
 }
 
-source=../keybinds/keyboard/lenovo-laptop.conf
-source=../keybinds/mouse/lenovo-trackpad.conf
+source = keybinds/keyboard/lenovo-laptop.conf
+source = keybinds/mouse/lenovo-trackpad.conf
+
+exec = $HOME/.config/hypr/scripts/devices/leds/microphone-validate-state.sh
