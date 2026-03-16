@@ -33,7 +33,7 @@ ueberzug_offset = [ 0, 0, 0, 0 ]
 edit = [
 	# TODO: Chcek out EDITOR variable
 	# { run = "${EDITOR:-vi} %s", desc = "$EDITOR",      for = "unix", block = true },
-	{ run = 'code "$1" && $(hyprctl -j activeworkspace | jq ".id == 4") || hyprctl dispatch workspace 4 1>/dev/null', desc = "code", block = true, for = "unix" }, # TODO: Fix workspace dispatch to account for if we are already on workspace 4
+	{ run = 'code "$1" && $(hyprctl -j activeworkspace | jq ".id == 4") || hyprctl dispatch workspace 4 1>/dev/null', desc = "code", block = true, for = "unix" }, # TODO: Fix windowrules so that alert moves instead of this
 	# TODO: Add `nano` edit.
 ]
 play = [
@@ -53,7 +53,7 @@ reveal = [
 	{ run = "clear; exiftool %s1; echo 'Press enter to exit'; read _", desc = "Show EXIF", for = "unix", block = true },
 ]
 extract = [
-	# TODO: Set up such that selected files/folders can be archived and possibly compressed. Archive is more important
+	# TODO: Set up such that selected files/folders can be archived (.tar) and possibly compressed (.tar.xz OR .zip). Archive is more important than compress.
 	{ run = "ya pub extract --list %s", desc = "Extract here" },
 ]
 download = [
@@ -63,8 +63,6 @@ download = [
 
 ratarmount =[
 	{ run = 'mn=$(mktemp -d); trap "fusermount -u \"$mn\"; rmdir \"$mn\"" EXIT; ratarmount --index-folders ~/.cache/ratarmount "$1" "$mn"; yazi "$mn"', desc = "Mount", block = true, for = "unix" },
-	# { run = 'mn=$(mktemp -d); ratarmount --index-folders ~/.cache/ratarmount "$1" "$mn"; yazi "$mn"; fusermount -u "$mn"; rmdir "$mn"', desc = "Mount", block = true, for = "unix" },
-	# { run = 'for file in "$@"; do DIR="${file%.*}_mount"; mkdir -p "$DIR" && ratarmount "$file" "$DIR"; done', desc = "Mount", block = true, for = "unix" },
 ]
 
 

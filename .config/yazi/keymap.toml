@@ -3,10 +3,8 @@
 "$schema" = "https://yazi-rs.github.io/schemas/keymap.json"
 
 [mgr]
-
 keymap = [
 	{ on = "<Esc>", run = "escape",             desc = "Exit visual mode, clear selection, or cancel search" },
-	{ on = "<C-[>", run = "escape",             desc = "Exit visual mode, clear selection, or cancel search" },
 	{ on = "q",     run = "quit",               desc = "Quit the process" },
 	{ on = "Q",     run = "quit --no-cwd-file", desc = "Quit without outputting cwd-file" },
 	{ on = "<C-c>", run = "close",              desc = "Close the current tab, or quit if it's last" },
@@ -34,15 +32,14 @@ keymap = [
 	# Toggle
 	{ on = "<Space>", run = [ "toggle", "arrow 1" ], desc = "Toggle the current selection state" },
 	{ on = "<C-a>",   run = "toggle_all --state=on", desc = "Select all files" },
-	{ on = "<C-r>",   run = "toggle_all",            desc = "Invert selection of all files" },
-
-	## Visual mode
-	# { on = "v", run = "visual_mode",         desc = "Enter visual mode (selection mode)" },
-	# { on = "V", run = "visual_mode --unset", desc = "Enter visual mode (unset mode)" },
+	{ on = "<C-S-a>",   run = "toggle_all --state=off", desc = "De-select all files" },
+	{ on = "<C-S-i>",   run = "toggle_all",            desc = "Invert selection of all files" },
 
 	# Preview - Seeking
-	{ on = "<C-Up>",   run = "seek -2", desc = "Seek up 2 units in the preview" },
-	{ on = "<C-Down>", run = "seek 2",  desc = "Seek down 2 units in the preview" },
+	{ on = "<C-Up>",   run = "seek -1", desc = "Seek up 1 units in the preview" },
+	{ on = "<C-Down>", run = "seek 1",  desc = "Seek down 1 units in the preview" },
+	{ on = "<C-PageUp>",   run = "seek -10", desc = "Seek up 10 units in the preview" },
+	{ on = "<C-PageDown>", run = "seek 10",  desc = "Seek down 10 units in the preview" },
 
 	# Spotting / Properties
 	{ on = "<Tab>", run = "spot", desc = "Spot hovered file" },
@@ -138,9 +135,6 @@ keymap = [
 	{ on = "[", run = "tab_switch -1 --relative", desc = "Switch to previous tab" },
 	{ on = "]", run = "tab_switch 1 --relative",  desc = "Switch to next tab" },
 
-	{ on = "{", run = "tab_swap -1", desc = "Swap current tab with previous tab" },
-	{ on = "}", run = "tab_swap 1",  desc = "Swap current tab with next tab" },
-
 	# Tasks
 	{ on = "w", 	  run = "tasks:show", desc = "Show task manager" },
 	{ on = "<S-Esc>", run = "tasks:show", desc = "Show task manager" },
@@ -148,13 +142,29 @@ keymap = [
 	# Help
 	{ on = "~",    run = "help", desc = "Open help" },
 	{ on = "<F1>", run = "help", desc = "Open help" },
+
+	# Plugins
+	{ on = "C", run = "plugin compress", desc = "Archive selected files" },
+	{ on = ".", run = "plugin what-size", desc = "Calculate size of selection or hovered" },
+    { on = "<A-e>", run = "plugin sudo", desc = "Toggle Sudo" },
+
+	# Sudo
+	{ on = [ "e", "o" ],         run = "plugin sudo -- open",                        desc = "Open selected files as sudo" },
+	{ on = [ "e", "O" ],         run = "plugin sudo -- open --interactive",          desc = "Open selected files interactively as sudo" },
+	{ on = [ "e", "y" ],         run = "plugin sudo -- yank",                        desc = "Yank selected files (copy) as sudo" },
+	{ on = [ "e", "x" ],         run = "plugin sudo -- yank --cut",                  desc = "Yank selected files (cut) as sudo" },
+	{ on = [ "e", "p" ],         run = "plugin sudo -- paste",                       desc = "Paste yanked files as sudo" },
+	{ on = [ "e", "P" ],         run = "plugin sudo -- paste --force",               desc = "Paste yanked files (overwrite if the destination exists) as sudo" },
+	{ on = [ "e", "d" ],         run = "plugin sudo -- remove",                      desc = "Trash selected files as sudo" },
+	{ on = [ "e", "D" ],         run = "plugin sudo -- remove --permanently",        desc = "Permanently delete selected files as sudo" },
+	{ on = [ "e", "a" ],         run = "plugin sudo -- create",                      desc = "Create a file (ends with / for directories) as sudo" },
+	{ on = [ "e", "r" ],         run = "plugin sudo -- rename --cursor=before_ext",  desc = "Rename selected file(s) as sudo" },
+
 ]
 
 [tasks]
-
 keymap = [
 	{ on = "<Esc>",  run = "close", desc = "Close task manager" },
-	{ on = "<C-[>",  run = "close", desc = "Close task manager" },
 	{ on = "<C-c>",  run = "close", desc = "Close task manager" },
 	{ on = "w",      run = "close", desc = "Close task manager" },
 	{ on = "<S-Esc>", run = "close", desc = "Close task manager" },
@@ -171,10 +181,9 @@ keymap = [
 ]
 
 [spot]
-
 keymap = [
 	{ on = "<Esc>", run = "close", desc = "Close the spot" },
-	{ on = "<C-[>", run = "close", desc = "Close the spot" },
+	{ on = "<q>",   run = "close", desc = "Close the spot" },
 	{ on = "<C-c>", run = "close", desc = "Close the spot" },
 	{ on = "<Tab>", run = "close", desc = "Close the spot" },
 
@@ -192,10 +201,9 @@ keymap = [
 ]
 
 [pick]
-
 keymap = [
 	{ on = "<Esc>",   run = "close",          desc = "Cancel pick" },
-	{ on = "<C-[>",   run = "close",          desc = "Cancel pick" },
+	{ on = "<q>",     run = "close",          desc = "Cancel pick" },
 	{ on = "<C-c>",   run = "close",          desc = "Cancel pick" },
 	{ on = "<Enter>", run = "close --submit", desc = "Submit the pick" },
 
@@ -203,12 +211,12 @@ keymap = [
 	{ on = "<Down>", run = "arrow next", desc = "Next option" },
 
 	{ on = "<Home>", run = "arrow top", desc = "1st option" },
-	{ on = "<End>", run = "arrow bot", desc = "1st option" },
+	{ on = "<End>", run = "arrow bot", desc = "last option" },
 	{ on = "1", run = "arrow top", desc = "1st option" },
-	{ on = "2", run = "arrow 1", desc = "1st option" },
-	{ on = "3", run = "arrow 2", desc = "1st option" },
-	{ on = "4", run = "arrow 3", desc = "1st option" },
-	{ on = "5", run = "arrow 4", desc = "1st option" },
+	{ on = "2", run = "arrow 1", desc = "2nd option" },
+	{ on = "3", run = "arrow 2", desc = "3rd option" },
+	{ on = "4", run = "arrow 3", desc = "4th option" },
+	{ on = "5", run = "arrow 4", desc = "5th option" },
 
 	# Help
 	{ on = "~",    run = "help", desc = "Open help" },
@@ -216,51 +224,20 @@ keymap = [
 ]
 
 [input]
-
 keymap = [
+	{ on = "<Esc>",   run = "close",         desc = "Cancel input" },
 	{ on = "<C-c>",   run = "close",          desc = "Cancel input" },
 	{ on = "<Enter>", run = "close --submit", desc = "Submit input" },
-	{ on = "<Esc>",   run = "escape",         desc = "Back to normal mode, or cancel input" },
-	{ on = "<C-[>",   run = "escape",         desc = "Back to normal mode, or cancel input" },
-
-	# Mode
-	{ on = "i", run = "insert",                          desc = "Enter insert mode" },
-	{ on = "I", run = [ "move first-char", "insert" ],   desc = "Move to the BOL, and enter insert mode" },
-	{ on = "a", run = "insert --append",                 desc = "Enter append mode" },
-	{ on = "A", run = [ "move eol", "insert --append" ], desc = "Move to the EOL, and enter append mode" },
-	{ on = "v", run = "visual",                          desc = "Enter visual mode" },
-	{ on = "r", run = "replace",                         desc = "Replace a single character" },
-
-	# Selection
-	{ on = "V",     run = [ "move bol", "visual", "move eol" ], desc = "Select from BOL to EOL" },
-	{ on = "<C-A>", run = [ "move eol", "visual", "move bol" ], desc = "Select from EOL to BOL" },
-	{ on = "<C-E>", run = [ "move bol", "visual", "move eol" ], desc = "Select from BOL to EOL" },
 
 	# Character-wise movement
-	{ on = "h",       run = "move -1", desc = "Move back a character" },
-	{ on = "l",       run = "move 1",  desc = "Move forward a character" },
 	{ on = "<Left>",  run = "move -1", desc = "Move back a character" },
 	{ on = "<Right>", run = "move 1",  desc = "Move forward a character" },
-	{ on = "<C-b>",   run = "move -1", desc = "Move back a character" },
-	{ on = "<C-f>",   run = "move 1",  desc = "Move forward a character" },
 
 	# Word-wise movement
-	{ on = "b",         run = "backward",                    desc = "Move back to the start of the current or previous word" },
-	{ on = "B",         run = "backward --far",              desc = "Move back to the start of the current or previous WORD" },
-	{ on = "w",         run = "forward",                     desc = "Move forward to the start of the next word" },
-	{ on = "W",         run = "forward --far",               desc = "Move forward to the start of the next WORD" },
-	{ on = "e",         run = "forward --end-of-word",       desc = "Move forward to the end of the current or next word" },
-	{ on = "E",         run = "forward --far --end-of-word", desc = "Move forward to the end of the current or next WORD" },
 	{ on = "<C-Left>",  run = "backward",                    desc = "Move back to the start of the current or previous word" },
 	{ on = "<C-Right>", run = "forward --end-of-word",       desc = "Move forward to the end of the current or next word" },
 
 	# Line-wise movement
-	{ on = "0",      run = "move bol",        desc = "Move to the BOL" },
-	{ on = "$",      run = "move eol",        desc = "Move to the EOL" },
-	{ on = "_",      run = "move first-char", desc = "Move to the first non-whitespace character" },
-	{ on = "^",      run = "move first-char", desc = "Move to the first non-whitespace character" },
-	{ on = "<C-a>",  run = "move bol",        desc = "Move to the BOL" },
-	{ on = "<C-e>",  run = "move eol",        desc = "Move to the EOL" },
 	{ on = "<Home>", run = "move bol",        desc = "Move to the BOL" },
 	{ on = "<End>",  run = "move eol",        desc = "Move to the EOL" },
 
@@ -274,19 +251,9 @@ keymap = [
 	{ on = "<C-Backspace>", run = "kill backward", desc = "Kill backwards to the start of the current word" },
 	{ on = "<C-Delete>",    run = "kill forward",  desc = "Kill forwards to the end of the current word" },
 
-	# Cut/Yank/Paste
-	{ on = "d", run = "delete --cut",                                      desc = "Cut selected characters" },
-	{ on = "D", run = [ "delete --cut", "move eol" ],                      desc = "Cut until EOL" },
-	{ on = "c", run = "delete --cut --insert",                             desc = "Cut selected characters, and enter insert mode" },
-	{ on = "C", run = [ "delete --cut --insert", "move eol" ],             desc = "Cut until EOL, and enter insert mode" },
-	{ on = "s", run = [ "delete --cut --insert", "move 1" ],               desc = "Cut current character, and enter insert mode" },
-	{ on = "S", run = [ "move bol", "delete --cut --insert", "move eol" ], desc = "Cut from BOL until EOL, and enter insert mode" },
-	{ on = "x", run = [ "delete --cut", "move 1 --in-operating" ],         desc = "Cut current character" },
-	{ on = "y", run = "yank",                                              desc = "Copy selected characters" },
-	{ on = "p", run = "paste",                                             desc = "Paste copied characters after the cursor" },
-
 	# Undo/Redo
 	{ on = "<C-z>", run = [ "undo" ], desc = "Undo the last operation" },
+	{ on = "<C-S-z>", run = [ "redo" ], desc = "Redo the last operation" },
 	{ on = "<C-y>", run = [ "redo" ], desc = "Redo the last operation" },
 
 	# Help
@@ -295,10 +262,8 @@ keymap = [
 ]
 
 [confirm]
-
 keymap = [
 	{ on = "<Esc>",   run = "close",          desc = "Cancel the confirm" },
-	{ on = "<C-[>",   run = "close",          desc = "Cancel the confirm" },
 	{ on = "<C-c>",   run = "close",          desc = "Cancel the confirm" },
 	{ on = "<Enter>", run = "close --submit", desc = "Submit the confirm" },
 
@@ -314,7 +279,6 @@ keymap = [
 ]
 
 [cmp]
-
 keymap = [
 	{ on = "<C-c>",   run = "close",                                      desc = "Cancel completion" },
 	{ on = "<Tab>",   run = "close --submit",                             desc = "Submit the completion" },
@@ -335,10 +299,9 @@ keymap = [
 ]
 
 [help]
-
 keymap = [
 	{ on = "<Esc>", run = "escape", desc = "Clear the filter, or hide the help" },
-	{ on = "<C-[>", run = "escape", desc = "Clear the filter, or hide the help" },
+	{ on = "<q>", run = "close", desc = "Clear the filter, or hide the help" },
 	{ on = "<C-c>", run = "close",  desc = "Hide the help" },
 
 	# Navigation
@@ -348,11 +311,6 @@ keymap = [
 	# Filtering
 	{ on = "f", run = "filter", desc = "Filter help items" },
 ]
-
-[[input.prepend_keymap]]
-on   = "<Esc>"
-run  = "close"
-desc = "Cancel input"
 
 [[mgr.prepend_keymap]]
 on  = "y"

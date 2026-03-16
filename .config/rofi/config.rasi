@@ -3,10 +3,10 @@ configuration {
 	terminal: "alacritty";
 	combi-modi: "drun,run,ssh";
 	combi-hide-mode-prefix: true;
-	drun-match-fields: "name,generic,exec,categories";
+	drun-match-fields: "name,generic,categories";
 
 	cycle: false;
-	levenshtein-sort: true;
+	/* levenshtein-sort: true; */
 	matching: "fuzzy";
 	click-to-exit: true;
 
