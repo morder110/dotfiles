@@ -1,0 +1,5 @@
+@import "style.css";
+
+window > *:last-child > * {
+    margin: 5rem 10rem;
+}

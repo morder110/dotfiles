@@ -9,12 +9,12 @@ window {
 
 /* Select whatever is containing the buttons */
 window > *:last-child > * {
-    /* TODO: Make the margin change based on the screen resolution (laptop vs desktop is the issue) */
-    margin: 20rem 40rem;
+    /* TODO: Make the margin % or allow it to change based on the screen resolution (laptop vs desktop is the issue) */
+    /* margin: 5rem 10rem; */
     background-color: rgba(82, 82, 82, 0.150);
 }
 
-button {    
+button {
     background-repeat: no-repeat;
     background-position: center;
     background-size: 20%;
