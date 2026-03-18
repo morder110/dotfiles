@@ -1,6 +1,7 @@
-import = [
-   "$HOME/.config/alacritty/default.toml",
-]
-
 [font]
 size = 12
+
+[general]
+import = [
+   "~/.config/alacritty/default.toml",
+]
