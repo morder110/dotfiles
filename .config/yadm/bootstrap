@@ -3,7 +3,19 @@
 MACHINE_ID=$(cat /etc/machine-id)
 if [[ "${MACHINE_ID}" = "2f709ee92a8d45d19c21ebdbc3b76844" ]]; then
     yadm config local.hostname home-desktop
+    yadm gitconfig --global init.defaultBranch 'master'
 elif [[ "${MACHINE_ID}" = "adfbb494b5c34576bbe476b6d901fcec" ]]; then
     yadm config local.hostname lenovo-laptop
+
+    yadm gitconfig --global init.defaultBranch 'main'
 fi
 
+yadm gitconfig --global user.name 'morder110'
+
+yadm gitconfig --global core.editor 'code --wait --new-window'
+
+yadm gitconfig --global merge.tool "vscode"
+yadm gitconfig --global mergetool.vscode.cmd 'code --wait --new-window --merge $LOCAL $REMOTE $BASE $MERGED'
+
+yadm gitconfig --global diff.tool "vscode"
+yadm gitconfig --global difftool.vscode.cmd 'code --wait --new-window --diff $LOCAL $REMOTE'
