@@ -1,0 +1,7 @@
+[font]
+size = 14
+
+[general]
+import = [
+   "~/.config/alacritty/popup-settings.toml",
+]
