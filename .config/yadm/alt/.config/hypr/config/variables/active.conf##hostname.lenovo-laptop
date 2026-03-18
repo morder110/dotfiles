@@ -3,7 +3,7 @@
 # Hyprpaper timeouts/timers (in seconds)
 $DISPLAY_TIMEOUT = 110
 $LOCK_TIME = 120 # Display will dim after 30 seconds when locked if not already.
-$SLEEP_WHEN_LOCKED_TIME = 180
+$SLEEP_WHEN_LOCKED_TIME = 150
 $SLEEP_THEN_HIBERNATE_TIME = # TODO: Set this up. This would replace the option above
 $KEYBOARD_BACKLIGHT_TIMEOUT = 30
 
