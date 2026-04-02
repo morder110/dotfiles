@@ -3,5 +3,5 @@ size = 12
 
 [general]
 import = [
-   "~/.config/alacritty/default.toml",
+   "~/.config/alacritty/alacritty-settings.toml",
 ]
