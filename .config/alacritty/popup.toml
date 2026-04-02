@@ -1,1 +1,110 @@
-../yadm/alt/.config/alacritty/popup.toml##hostname.home-desktop
+general.live_config_reload = true
+
+general.import = [
+    "~/.config/alacritty/popup-device-settings.toml"
+]
+
+[bell]
+animation = "EaseOutExpo"
+duration = 0
+
+[colors]
+draw_bold_text_with_bright_colors = true
+
+[[colors.indexed_colors]]
+color = "0xF8BD96"
+index = 16
+
+[[colors.indexed_colors]]
+color = "0xF5E0DC"
+index = 17
+
+[colors.primary]
+background = "0x0A0C10"
+foreground = "0xF0F3F6"
+
+[colors.normal]
+black = "0x7A828E"
+blue = "0x71B7FF"
+cyan = "0x39C5CF"
+green = "0x26CD4D"
+magenta = "0xCB9EFF"
+red = "0xFF9492"
+white = "0xD9DEE3"
+yellow = "0xF0B72F"
+
+[colors.bright]
+black = "0x9EA7B3"
+blue = "0x91CBFF"
+cyan = "0x39C5CF"
+green = "0x4AE168"
+magenta = "0xCB9EFF"
+red = "0xFFB1AF"
+white = "0xD9DEE3"
+yellow = "0xF7C843"
+
+[colors.cursor]
+cursor = "0xF5E0DC"
+text = "0x1E1D2F"
+
+[cursor]
+blink_interval = 500
+blink_timeout = 5
+unfocused_hollow = false
+
+[cursor.style]
+blinking = "Off"
+shape = "Block"
+
+[env]
+TERM = "xterm-256color"
+
+[font]
+size = 8 # TODO: x for desktop 8 for laptop
+
+[font.bold]
+#family = "JetBrainsMono Nerd Font"
+#style = "Bold"
+
+[font.glyph_offset]
+x = 0
+y = 0
+
+[font.italic]
+#family = "JetBrainsMono Nerd Font"
+
+[font.normal]
+#family = "JetBrainsMono Nerd Font"
+#style = "Regular"
+
+[font.offset]
+x = 0
+y = 0
+
+[mouse]
+hide_when_typing = true
+
+[[mouse.bindings]]
+action = "PasteSelection"
+mouse = "Middle"
+
+[selection]
+semantic_escape_chars = ",│`|:\"' ()[]{}<>"
+
+[terminal.shell]
+program = "/bin/zsh"
+
+[window]
+decorations = "full"
+dynamic_title = true
+startup_mode = "Maximized"
+
+[window.dimensions]
+columns = 160
+lines = 80
+
+[window.padding]
+x = 4
+y = 4
+
+[terminal]

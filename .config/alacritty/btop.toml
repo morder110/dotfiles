@@ -1,0 +1,4 @@
+general.import = [
+    "~/.config/alacritty/popup.toml",
+    "~/.config/alacritty/btop-device-settings.toml"
+]
