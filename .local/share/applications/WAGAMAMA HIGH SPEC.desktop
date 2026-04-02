@@ -1,8 +1,0 @@
-[Desktop Entry]
-Name=WAGAMAMA HIGH SPEC
-Comment=Play this game on Steam
-Exec=steam steam://rungameid/575480
-Icon=steam_icon_575480
-Terminal=false
-Type=Application
-Categories=Game;

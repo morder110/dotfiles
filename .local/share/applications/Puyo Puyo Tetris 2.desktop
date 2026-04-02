@@ -1,8 +1,0 @@
-[Desktop Entry]
-Name=Puyo Puyo™ Tetris® 2
-Comment=Play this game on Steam
-Exec=steam steam://rungameid/1259790
-Icon=steam_icon_1259790
-Terminal=false
-Type=Application
-Categories=Game;
