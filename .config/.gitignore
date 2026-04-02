@@ -1,8 +1,3 @@
-# TODO: Remove alacritty from this file after testing merge. YADM should handle these already.
-alacritty/alacritty-device-settings.toml
-alacritty/btop-device-settings.toml
-alacritty/popup-device-settings.toml
-
 hypr/config/keybinds/keyboard/active.conf
 hypr/config/keybinds/mouse/active.conf
 hypr/config/keybinds/monitor/active.conf
