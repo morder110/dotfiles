@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Vesktop
-Exec=vesktop vesktop --enable-blink-features=MiddleClickAutoscroll %U
+Exec=vesktop vesktop --enable-blink-features=MiddleClickAutoscroll --enable-speech-displatcher %U
 Terminal=false
 Type=Application
 Icon=vesktop
