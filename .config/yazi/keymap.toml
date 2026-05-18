@@ -45,7 +45,12 @@ keymap = [
 	{ on = "<Tab>", run = "spot", desc = "Spot hovered file" },
 
 	# Operation
-	{ on = "o",         run = "open",                        desc = "Open selected files" },
+	{ on = [ "o", "t" ], run = 'shell -- if [ -d "%s1" ]; then thunar "%s1"; else thunar "$(dirname "%s1")"; fi', desc = "Thunar" },
+	{ on = [ "o", "a" ], run = 'shell -- if [ -d "%s1" ]; then alacritty --working-directory "%s1"; else alacritty --working-directory "$(dirname "%s1")"; fi', desc = "Alacritty" },
+	{ on = [ "o", "c" ], run = 'shell -- code "%s1"', desc = "VSCode" },
+	{ on = [ "o", "n" ], run = 'shell -- nano "%s1"', desc = "nano" },
+	{ on = [ "o", "o" ], run = "open", desc = "Default" },
+
 	{ on = "O",         run = "open --interactive",          desc = "Open selected files interactively" },
     { on = "<Enter>",   run = "plugin smart-enter", 		 desc = "Enter the directory, or open selected files" },
 	{ on = "<S-Enter>", run = "open --interactive",          desc = "Open selected files interactively" },
@@ -110,13 +115,14 @@ keymap = [
 	{ on = [ ",", "r" ], run = "sort random --reverse=no",                       desc = "Sort randomly" },
 
 	# Goto
-	{ on = [ "g", "h" ],       run = "cd ~",             desc = "Go home" },
-	{ on = [ "g", "c" ],       run = "cd ~/.config",     desc = "Go ~/.config" },
-	{ on = [ "g", "d" ],       run = "cd ~/Downloads",   desc = "Go ~/Downloads" },
-	{ on = [ "g", "m" ],       run = "cd /mnt",   		 desc = "Go /mnt" },
-	{ on = [ "g", "t" ],       run = "cd /tmp",   		 desc = "Go /tmp" },
-	{ on = [ "g", "<Space>" ], run = "cd --interactive", desc = "Jump interactively" },
-	{ on = [ "g", "f" ],       run = "follow",           desc = "Follow hovered symlink" },
+	{ on = [ "g", "h" ],       run = "cd ~",             	 desc = "$HOME" },
+	{ on = [ "g", "c" ],       run = "cd ~/.config",     	 desc = "~/.config" },
+	{ on = [ "g", "d" ],       run = "cd ~/Downloads",   	 desc = "~/Downloads" },
+	{ on = [ "g", "m" ],       run = "cd /mnt",   		 	 desc = "/mnt" },
+	{ on = [ "g", "r" ],       run = "cd /run/media/morder", desc = "/run/media/morder" },
+	{ on = [ "g", "t" ],       run = "cd /tmp",   		 	 desc = "/tmp" },
+	{ on = [ "g", "<Space>" ], run = "cd --interactive", 	 desc = "Jump interactively" },
+	{ on = [ "g", "f" ],       run = "follow",           	 desc = "Follow hovered symlink" },
 
 	# Tabs
 	{ on = "<C-t>", run = "tab_create --current", desc = "Create a new tab with CWD" },

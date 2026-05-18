@@ -35,7 +35,7 @@ edit = [
 	# TODO: Chcek out EDITOR variable
 	# { run = "${EDITOR:-vi} %s", desc = "$EDITOR",      for = "unix", block = true },
 	{ run = 'code "$1" && $(hyprctl -j activeworkspace | jq ".id == 4") || hyprctl dispatch workspace 4 1>/dev/null', desc = "code", block = true, for = "unix" }, # TODO: Fix windowrules so that alert moves instead of this
-	# TODO: Add `nano` edit.
+
 ]
 play = [
 	# TODO: Configure play after media player has been set up
@@ -47,11 +47,12 @@ open = [
 	{ run = "xdg-open %s1", desc = "Open", for = "linux" },
 ]
 reveal = [
-	# TODO: Have reveal in terminal (Alacritty) and file exporer (Thunar)
-	{ run = 'xdg-open "$(dirname "$1")"', desc = "Reveal (1)", for = "linux" },
-	{ run = "xdg-open %d1", desc = "Reveal (2)", for = "linux" },
+	{ run = 'if [ -d "$1" ]; then thunar "$1"; else thunar "$(dirname "$1")"; fi', desc = "Thunar", orphan = true, for = "linux" },
+	{ run = 'if [ -d "$1" ]; then alacritty --working-directory "$1"; else alacritty --working-directory "$(dirname "$1")"; fi', desc = "Alacritty", orphan = true, for = "linux" },
+	# { run = 'xdg-open "$(dirname "$1")"', desc = "Reveal (1)", for = "linux" },
+	# { run = "xdg-open %d1", desc = "Reveal (2)", for = "linux" },
 	# TODO: Replace exiftool with having the info about the file/directory be displayed in the preview panel (split the preview panel into top half, preview and bottom half file info)
-	{ run = "clear; exiftool %s1; echo 'Press enter to exit'; read _", desc = "Show EXIF", for = "unix", block = true },
+	# { run = "clear; exiftool %s1; echo 'Press enter to exit'; read _", desc = "Show EXIF", for = "unix", block = true },
 ]
 extract = [
 	# TODO: Set up such that selected files/folders can be archived (.tar) and possibly compressed (.tar.xz OR .zip). Archive is more important than compress.
@@ -60,6 +61,10 @@ extract = [
 download = [
 	{ run = "ya emit download --open %S", desc = "Download and open" },
 	{ run = "ya emit download %S", desc = "Download" },
+]
+
+nano = [
+	{ run = 'nano "$1"', desc = "nano", block = true, for = "unix" },
 ]
 
 ratarmount =[
@@ -77,20 +82,18 @@ rules = [
 	# bibtex. bib works, but bibtex does not have an icon or syntax highlighting
 	# jsonc and json5. json works
 	# lua icon and syntax highlighting. luau syntax highlighting
-	# 
-	# 
 	
-	
+
 	# Text
-	{ mime = "text/*", use = [ "edit", "reveal" ] },
-	{ mime = "application/wine-extension-ini", use = [ "edit", "reveal" ] },
+	{ mime = "text/*", use = [ "edit", "nano", "reveal" ] },
+	{ mime = "application/wine-extension-ini", use = [ "edit", "nano", "reveal" ] },
 	# JSON
-	{ mime = "application/{json,ndjson,jsonc}", use = [ "edit", "reveal" ] }, # TODO: Fix preview
-	{ mime = "*/javascript", use = [ "edit", "reveal" ] },
+	{ mime = "application/{json,ndjson,jsonc}", use = [ "edit", "nano", "reveal" ] },
+	{ mime = "*/javascript", use = [ "edit", "nano", "reveal" ] },
 	# Empty file
-	{ mime = "inode/empty", use = [ "edit", "reveal" ] },
+	{ mime = "inode/empty", use = [ "edit", "nano", "reveal" ] },
 	# Image
-	{ mime = "image/*", use = [ "open", "reveal" ] }, # TODO: Open image with an image viewer instead of gimp
+	{ mime = "image/*", use = [ "open", "reveal" ] },
 	# Media
 	{ mime = "{audio,video}/*", use = [ "play", "reveal" ] },
 	# Archive
