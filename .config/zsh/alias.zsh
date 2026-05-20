@@ -187,6 +187,16 @@ function faurq() {
 # bindkey '^[f^[u' fzf-flatpak-uninstall-widget #alt-f + alt-u
 # zle -N fzf-flatpak-uninstall-widget
 
+# Yazi shell wrapper - cd to the last directory on quit
+function yazi() {
+    local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+    command yazi "$@" --cwd-file="$tmp"
+    if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+        builtin cd -- "$cwd"
+    fi
+    rm -f -- "$tmp"
+}
+
 alias aur="paru"
 alias cls="clear"
 alias sl="ls"

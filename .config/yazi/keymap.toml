@@ -47,14 +47,12 @@ keymap = [
 	# Operation
 	# Open sub-actions (o prefix)
 	{ on = [ "o", "t" ], run = 'shell -- if [ -d "%s1" ]; then thunar "%s1"; else thunar "$(dirname "%s1")"; fi', desc = "Thunar" },
-	{ on = [ "o", "a" ], run = 'shell -- if [ -d "%s1" ]; then alacritty --working-directory "%s1"; else alacritty --working-directory "$(dirname "%s1")"; fi', desc = "Alacritty" },
 	{ on = [ "o", "c" ], run = 'shell -- code "%s1"', desc = "VSCode" },
 	{ on = [ "o", "n" ], run = 'shell -- nano "%s1"', desc = "nano" },
 	{ on = [ "o", "o" ], run = "open", desc = "Default" },
 
 	# Sudo open sub-actions (Ctrl+Alt+o prefix)
 	{ on = [ "<C-A-o>", "t" ], run = 'shell -- if [ -d "%s1" ]; then thunar "%s1"; else thunar "$(dirname "%s1")"; fi', desc = "Thunar" },
-	{ on = [ "<C-A-o>", "a" ], run = 'shell -- if [ -d "%s1" ]; then alacritty --working-directory "%s1"; else alacritty --working-directory "$(dirname "%s1")"; fi', desc = "Alacritty" },
 	{ on = [ "<C-A-o>", "c" ], run = 'shell -- code "%s1"', desc = "VSCode" },
 	{ on = [ "<C-A-o>", "n" ], run = 'shell --block -- sudo env "PATH=$PATH" nano "%s1"', desc = "nano (sudo)" },
 	{ on = [ "<C-A-o>", "o" ], run = 'shell -- sudo env "PATH=$PATH" xdg-open "%s1"', desc = "Default (sudo)" },
