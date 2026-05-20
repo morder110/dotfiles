@@ -43,5 +43,15 @@ use = "yazi-rs/plugins:toggle-pane"
 rev = "1962818"
 hash = "4c0260feb50ea2437380690ffc241da7"
 
+[[plugin.deps]]
+use = "uhs-robert/recycle-bin"
+rev = "fa68711"
+hash = "8714306b5cac6359edbacbf545fbd691"
+
+[[plugin.deps]]
+use = "boydaihungst/restore"
+rev = "0e08704"
+hash = "e4d7c06510b4fe5f64ae31fbb4e017d6"
+
 [flavor]
 deps = []

@@ -5,3 +5,6 @@ require("full-border"):setup {
 
 -- No Status Bar Setup
 require("no-status"):setup()
+
+-- Recycle Bin Setup
+require("recycle-bin"):setup()

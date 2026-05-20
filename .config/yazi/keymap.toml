@@ -8,7 +8,7 @@ keymap = [
 	{ on = "q",     run = "quit",               desc = "Quit the process" },
 	{ on = "Q",     run = "quit --no-cwd-file", desc = "Quit without outputting cwd-file" },
 	{ on = "<C-c>", run = "close",              desc = "Close the current tab, or quit if it's last" },
-	{ on = "<C-z>", run = "suspend",            desc = "Suspend the process" },
+	{ on = "<C-z>", run = "plugin restore",      desc = "Restore last deleted files" },
 
 	# Hopping
 	{ on = "<Up>",   run = "arrow prev", desc = "Previous file" },
@@ -159,6 +159,7 @@ keymap = [
 	{ on = "C", run = "plugin compress", desc = "Archive selected files" },
 	{ on = ".", run = "plugin what-size", desc = "Calculate size of selection or hovered" },
     { on = "<A-e>", run = "plugin sudo", desc = "Toggle Sudo" },
+	{ on = "R", run = "plugin recycle-bin", desc = "Open Recycle Bin menu" },
 
 	# Sudo
 	{ on = [ "e", "o" ],         run = "plugin sudo -- open",                        desc = "Open selected files as sudo" },
