@@ -92,7 +92,7 @@ keymap = [
 
 	# Copy
 	{ on = [ "c", "c" ], run = "copy path",             desc = "Copy file path" },
-	{ on = [ "c", "d" ], run = "copy dirname",          desc = "Copy directory path" },
+	{ on = [ "c", "d" ], run = "shell -- ripdrag %s -x 2>/dev/null &", desc = "Drag files" },
 	{ on = [ "c", "f" ], run = "copy filename",         desc = "Copy filename" },
 	{ on = [ "c", "n" ], run = "copy name_without_ext", desc = "Copy filename w/o extension" },
 
