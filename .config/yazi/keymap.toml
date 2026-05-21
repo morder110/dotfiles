@@ -45,20 +45,15 @@ keymap = [
 	{ on = "<Tab>", run = "spot", desc = "Spot hovered file" },
 
 	# Operation
-	# Open sub-actions (o prefix)
 	{ on = [ "o", "t" ], run = 'shell -- if [ -d "%s1" ]; then thunar "%s1"; else thunar "$(dirname "%s1")"; fi', desc = "Thunar" },
-	{ on = [ "o", "c" ], run = 'shell -- code "%s1"', desc = "VSCode" },
+	{ on = [ "o", "c" ], run = 'shell -- code "%s1"', desc = "code" },
 	{ on = [ "o", "n" ], run = 'shell -- nano "%s1"', desc = "nano" },
+	{ on = [ "o", "N" ], run = 'shell --block -- sudo env "PATH=$PATH" nano "%s1"', desc = "nano (sudo)" },
 	{ on = [ "o", "o" ], run = "open", desc = "Default" },
+	{ on = [ "o", "O" ], run = 'shell -- sudo env "PATH=$PATH" xdg-open "%s1"', desc = "Default (sudo)" },
 
-	# Sudo open sub-actions (Ctrl+Alt+o prefix)
-	{ on = [ "<C-A-o>", "t" ], run = 'shell -- if [ -d "%s1" ]; then thunar "%s1"; else thunar "$(dirname "%s1")"; fi', desc = "Thunar" },
-	{ on = [ "<C-A-o>", "c" ], run = 'shell -- code "%s1"', desc = "VSCode" },
-	{ on = [ "<C-A-o>", "n" ], run = 'shell --block -- sudo env "PATH=$PATH" nano "%s1"', desc = "nano (sudo)" },
-	{ on = [ "<C-A-o>", "o" ], run = 'shell -- sudo env "PATH=$PATH" xdg-open "%s1"', desc = "Default (sudo)" },
-
-	{ on = "O",         run = "open --interactive",          desc = "Open selected files interactively" },
     { on = "<Enter>",   run = "plugin smart-enter", 		 desc = "Enter the directory, or open selected files" },
+	{ on = "<O>", 		run = "open --interactive",          desc = "Open selected files interactively" },
 	{ on = "<S-Enter>", run = "open --interactive",          desc = "Open selected files interactively" },
 	{ on = "y",         run = "yank",                        desc = "Yank selected files (copy)" },
 	{ on = "x",         run = "yank --cut",                  desc = "Yank selected files (cut)" },
