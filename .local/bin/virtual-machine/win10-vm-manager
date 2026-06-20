@@ -1,0 +1,679 @@
+#!/bin/bash
+set -euo pipefail
+
+USER_HOME="${USER_HOME:-$HOME}"
+VM="win10"
+VFIO_CONF="/etc/modprobe.d/vfio.conf"
+MAPPINGS="$USER_HOME/.assets/usb-mappings.json"
+STATE_FILE="/tmp/vm-usb-state"
+BOOT_GPU_FILE="/tmp/vm-boot-gpu"
+
+RTX4060_IDS="10de:2882,10de:22be"
+GTX960_IDS="10de:1401,10de:0fba"
+
+XBOX_VENDOR="045e"
+XBOX_PRODUCT="0b00"
+XBOX_BLACKLIST="/etc/modprobe.d/blacklist-xpad.conf"
+XBOX_ATTACH_FILE="/tmp/vm-xbox-attach"
+VM_ACTIVE_FILE="/tmp/vm-active"
+
+vm_is_running() {
+    local state=$(virsh -c qemu:///system domstate "$VM" 2>/dev/null || echo "undefined")
+    [[ "$state" == "running" ]]
+}
+
+vm_is_active() {
+    local state=$(virsh -c qemu:///system domstate "$VM" 2>/dev/null || echo "undefined")
+    [[ "$state" == "running" || "$state" == "paused" ]]
+}
+
+vm_is_paused() {
+    [[ "$(virsh -c qemu:///system domstate "$VM" 2>/dev/null)" == "paused" ]]
+}
+
+vm_settings_block() {
+    echo "Settings cannot be changed while the VM is running."
+    sleep 2
+}
+
+die() { echo "Error: $*" >&2; exit 1; }
+
+[[ $EUID -eq 0 ]] || exec sudo USER_HOME="$HOME" PATH="$PATH" XDG_RUNTIME_DIR="$XDG_RUNTIME_DIR" WAYLAND_DISPLAY="$WAYLAND_DISPLAY" "$0" "$@"
+
+current_gpu() {
+    local ids=$(sed -n 's/^options vfio-pci ids=//p' "$VFIO_CONF")
+    case "$ids" in
+        "$RTX4060_IDS")
+            echo "RTX 4060"
+            ;;
+        "$GTX960_IDS")
+            echo "GTX 960"
+            ;;
+        *)
+            echo "none"
+            ;;
+    esac
+}
+
+reboot_needed() {
+    if [[ ! -f "$BOOT_GPU_FILE" ]]; then
+        return 0
+    fi
+
+    local boot=$(cat "$BOOT_GPU_FILE")
+    local current=$(current_gpu)
+
+    [[ "$boot" != "$current" ]]
+}
+
+count_usb_state() {
+    if [[ -f "$STATE_FILE" ]]; then
+        wc -l < "$STATE_FILE"
+    else
+        echo 0
+    fi
+}
+
+find_xbox_path() {
+    for vid_path in /sys/bus/usb/devices/*/idVendor; do
+        if [[ ! -f "$vid_path" ]]; then
+            continue
+        fi
+
+        if [[ "$(cat "$vid_path" 2>/dev/null)" != "$XBOX_VENDOR" ]]; then
+            continue
+        fi
+
+        local dev=$(dirname "$vid_path")
+        if [[ "$(cat "$dev/idProduct" 2>/dev/null)" != "$XBOX_PRODUCT" ]]; then
+            continue
+        fi
+
+        basename "$dev"
+        return 0
+    done
+
+    return 1
+}
+
+xbox_in_vm() {
+    virsh -c qemu:///system dumpxml "$VM" 2>/dev/null | grep -q "vendor id='0x${XBOX_VENDOR}'"
+}
+
+do_gpu_toggle() {
+    local target="$1"
+    if [[ -z "$target" ]]; then
+        return
+    fi
+
+    local current=$(sed -n 's/^options vfio-pci ids=//p' "$VFIO_CONF")
+    local new_ids old_ids new_bus old_bus new_name old_name
+
+    case "$target" in
+        4060)
+            if [[ "$current" == "$RTX4060_IDS" ]]; then
+                return
+            fi
+
+            new_ids="$RTX4060_IDS"
+            old_ids="$GTX960_IDS"
+
+            new_bus="01"
+            old_bus="03"
+
+            new_name="RTX 4060"
+            old_name="GTX 960"
+            ;;
+        960)
+            if [[ "$current" == "$GTX960_IDS" ]]; then
+                return
+            fi
+
+            new_ids="$GTX960_IDS"
+            old_ids="$RTX4060_IDS"
+
+            new_bus="03"
+            old_bus="01"
+
+            new_name="GTX 960"
+            old_name="RTX 4060"
+            ;;
+    esac
+
+    echo "Switching: $old_name → $new_name"
+    cp "$VFIO_CONF" "$VFIO_CONF.bak"
+    sed -i "s/^options vfio-pci ids=$old_ids/#&/" "$VFIO_CONF"
+    if grep -q "^#options vfio-pci ids=$new_ids" "$VFIO_CONF"; then
+        sed -i "s/^#options vfio-pci ids=$new_ids/options vfio-pci ids=$new_ids/" "$VFIO_CONF"
+    else
+        echo "options vfio-pci ids=$new_ids" >> "$VFIO_CONF"
+    fi
+
+    local vm_state=$(virsh domstate "$VM" 2>/dev/null || echo "undefined")
+    if [[ "$vm_state" != "undefined" ]]; then
+        local tmp_xml=$(mktemp /tmp/win10.xml.XXXXXX)
+        virsh dumpxml "$VM" > "$tmp_xml"
+        sed -i "/<source>/,/<\/source>/ s|bus='0x$old_bus' slot='0x00' function='0x0'|bus='0x$new_bus' slot='0x00' function='0x0'|" "$tmp_xml"
+        sed -i "/<source>/,/<\/source>/ s|bus='0x$old_bus' slot='0x00' function='0x1'|bus='0x$new_bus' slot='0x00' function='0x1'|" "$tmp_xml"
+
+        virsh define "$tmp_xml" > /dev/null
+        rm -f "$tmp_xml"
+        
+        echo "  ✓ VM '$VM' updated"
+    fi
+
+    if mkinitcpio -P &>/dev/null; then
+        echo "  ✓ initramfs rebuilt"
+    else
+        echo "  ⚠ mkinitcpio failed"
+    fi
+
+    echo ""
+    echo "✓ $new_name attached to VM"
+    
+    if reboot_needed; then
+        echo "⚠ Reboot required"
+        if gum confirm "Reboot now?"; then
+            reboot
+        fi
+    else
+        sleep 2
+    fi
+}
+
+do_usb_list() {
+    local items=()
+
+    for vid_path in /sys/bus/usb/devices/*/idVendor; do
+        if [[ ! -f "$vid_path" ]]; then
+            continue
+        fi
+
+        local dev=$(dirname "$vid_path")
+        local vid=$(cat "$dev/idVendor" 2>/dev/null || true)
+        local pid=$(cat "$dev/idProduct" 2>/dev/null || true)
+        if [[ -z "$vid" || -z "$pid" ]]; then
+            continue
+        fi
+
+        local key="${vid}:${pid}"
+        local sysfs_name=$(cat "$dev/product" 2>/dev/null || echo "Unknown")
+
+        # Find device in mapping file. Exclude system devices.
+        local entry_info=$(jq -r --arg k "$key" '
+          .[$k] // empty |
+          [ (.name // ""), (."is-system" // false | tostring), (.type // "") ]
+          | @tsv
+        ' "$MAPPINGS" 2>/dev/null || echo "")
+
+        local name
+        if [[ -n "$entry_info" ]]; then
+            local is_system dev_type
+            IFS=$'\t' read -r name is_system dev_type <<< "$entry_info"
+            if [[ "$is_system" == "true" ]]; then
+                continue
+            fi
+            if [[ "$dev_type" == "controller" ]]; then
+                continue
+            fi
+            if [[ -z "$name" ]]; then
+                name="$sysfs_name"
+            fi
+        else
+            name="$sysfs_name"
+        fi
+
+        items+=("$key|$name")
+    done
+
+    if [[ ${#items[@]} -eq 0 ]]; then
+        echo "No USB devices found."
+        sleep 2
+        return
+    fi
+
+    local choice=$(gum choose --no-limit --header "Select USB devices to attach to VM" "${items[@]}") || return
+    if [[ -z "$choice" ]]; then
+        rm -f "$STATE_FILE"
+        return
+    fi
+
+    printf "%s\n" "$choice" | sed 's/|.*//' > "$STATE_FILE"
+}
+
+xbox_xml() {
+    mktemp /tmp/vm-xbox-XXXXXX.xml
+}
+
+xbox_block_xpad() {
+    echo "blacklist xpad" > "$XBOX_BLACKLIST" 2>/dev/null
+}
+
+xbox_reset_device() {
+    local devpath="$1"
+    if [[ -z "$devpath" || ! -d "/sys/bus/usb/devices/$devpath" ]]; then
+        return 1
+    fi
+
+    echo 0 > "/sys/bus/usb/devices/$devpath/authorized" 2>/dev/null || true
+    sleep 1
+    
+    echo 1 > "/sys/bus/usb/devices/$devpath/authorized" 2>/dev/null || true
+    sleep 2
+}
+
+xbox_attach() {
+    local tmp_xml=$(xbox_xml)
+    cat > "$tmp_xml" <<DEVXML
+<hostdev mode='subsystem' type='usb' managed='yes'>
+  <source>
+    <vendor id='0x${XBOX_VENDOR}'/>
+    <product id='0x${XBOX_PRODUCT}'/>
+  </source>
+</hostdev>
+DEVXML
+    
+    virsh -c qemu:///system attach-device "$VM" "$tmp_xml" > /dev/null
+    local rc=$?
+    rm -f "$tmp_xml"
+
+    return $rc
+}
+
+xbox_detach() {
+    local tmp_xml=$(xbox_xml)
+    cat > "$tmp_xml" <<DEVXML
+<hostdev mode='subsystem' type='usb' managed='yes'>
+  <source>
+    <vendor id='0x${XBOX_VENDOR}'/>
+    <product id='0x${XBOX_PRODUCT}'/>
+  </source>
+</hostdev>
+DEVXML
+    
+    virsh -c qemu:///system detach-device "$VM" "$tmp_xml" > /dev/null
+    local rc=$?
+    rm -f "$tmp_xml"
+
+    return $rc
+}
+
+xbox_attach_with_reset() {
+    local devpath=$(find_xbox_path)
+    if [[ -z "$devpath" ]]; then
+        return 1
+    fi
+
+    xbox_block_xpad
+    rmmod xpad 2>/dev/null || true
+
+    for intf_dir in /sys/bus/usb/devices/${devpath}:1.*/driver; do
+        if [[ ! -L "$intf_dir" ]]; then
+            continue
+        fi
+
+        local driver=$(readlink "$intf_dir")
+        if [[ "$driver" != *"xpad" ]]; then
+            continue
+        fi
+
+        local intf=$(basename "$(dirname "$intf_dir")")
+        echo "$intf" > /sys/bus/usb/drivers/xpad/unbind 2>/dev/null || true
+    done
+
+    xbox_reset_device "$devpath"
+
+    devpath=$(find_xbox_path)
+    if [[ -z "$devpath" ]]; then
+        echo "  Xbox controller did not re-enumerate after reset."
+        echo "  Please unplug and replug the controller, then press Enter."
+        read -r
+
+        devpath=$(find_xbox_path)
+        if [[ -z "$devpath" ]]; then
+            return 1
+        fi
+    fi
+
+    xbox_attach
+    local rc=$?
+    if [[ $rc -ne 0 ]]; then
+        echo "  Attach failed. Try unplugging and replugging the controller, then retry."
+    fi
+
+    return $rc
+}
+
+xbox_detach_and_reclaim() {
+    local rc=0
+    if ! xbox_detach; then
+        rc=$?
+    fi
+
+    local devpath=$(find_xbox_path)
+    if [[ -n "$devpath" ]]; then
+        xbox_reset_device "$devpath"
+        devpath=$(find_xbox_path)
+        if [[ -z "$devpath" ]]; then
+            devpath=$(find_xbox_path)
+        fi
+        if [[ -z "$devpath" ]]; then
+            echo "  Xbox controller did not re-enumerate. Try replugging."
+        fi
+    fi
+
+    modprobe xpad 2>/dev/null || true
+    sleep 1
+
+    return $rc
+}
+
+do_toggle_xbox() {
+    if [[ -f "$XBOX_ATTACH_FILE" ]]; then
+        rm -f "$XBOX_ATTACH_FILE"
+    else
+        touch "$XBOX_ATTACH_FILE"
+    fi
+}
+
+do_shutdown_vm() {
+    local vm_state=$(virsh domstate "$VM" 2>/dev/null || echo "undefined")
+    case "$vm_state" in
+        "undefined")
+            echo "VM '$VM' does not exist."
+            sleep 2
+            return
+            ;;
+        "shut off")
+            echo "VM '$VM' is already shut off."
+            sleep 2
+            return
+            ;;
+    esac
+
+    if [[ "$vm_state" == "paused" ]]; then
+        echo "Resuming VM before shutdown..."
+        virsh -c qemu:///system resume "$VM" || true
+        sleep 1
+    fi
+
+    if xbox_in_vm; then
+        echo "Detaching Xbox controller from VM..."
+        xbox_detach_and_reclaim || true
+        sleep 1
+    fi
+
+    echo "Shutting down VM '$VM'..."
+    virsh shutdown "$VM" || die "Failed to send shutdown signal."
+
+    local waited=0
+    while [[ $waited -lt 30 ]]; do
+        sleep 1
+        ((++waited))
+
+        local state=$(virsh domstate "$VM" 2>/dev/null)
+        if [[ "$state" == "shut off" ]]; then
+            rm -f "$VM_ACTIVE_FILE"
+            echo "✓ VM shut down successfully."
+
+            return
+        fi
+    done
+
+    echo "⚠ Timed out waiting for shutdown. Forcing..."
+    if virsh destroy "$VM"; then
+        rm -f "$VM_ACTIVE_FILE"
+        echo "✓ VM destroyed."
+    else
+        die "Failed to destroy VM."
+    fi
+}
+
+do_connect_vm() {
+    local user="${SUDO_USER:-$USER}"
+    local uid=$(id -u "$user")
+    sudo -u "$user" XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/$uid}" WAYLAND_DISPLAY="${WAYLAND_DISPLAY:-wayland-0}" looking-glass-client -m KEY_PAUSE -F > /dev/null 2>&1 || true
+}
+
+do_toggle_pause() {
+    if vm_is_paused; then
+        virsh -c qemu:///system resume "$VM" || die "Failed to resume VM."
+        echo "✓ VM resumed."
+    else
+        virsh -c qemu:///system suspend "$VM" || die "Failed to pause VM."
+        echo "✓ VM paused."
+    fi
+    sleep 1
+}
+
+do_cleanup() {
+    echo "Running cleanup..."
+
+    if xbox_in_vm; then
+        xbox_detach_and_reclaim || true
+    else
+        modprobe xpad 2>/dev/null || true
+    fi
+
+    rm -f "$XBOX_BLACKLIST" 2>/dev/null
+    rm -f "$VM_ACTIVE_FILE" 2>/dev/null
+
+    echo "✓ Cleanup complete."
+    sleep 1
+}
+
+do_start_vm() {
+    if reboot_needed; then
+        local boot_gpu_name=$(cat "$BOOT_GPU_FILE")
+        echo "⚠ GPU has been switched. Reboot for new GPU to take effect."
+        echo "   Switch back to $boot_gpu_name to start without rebooting."
+        sleep 4
+
+        return
+    fi
+
+    local vm_state=$(virsh domstate "$VM" 2>/dev/null || echo "undefined")
+
+    case "$vm_state" in
+        "running")
+            echo "VM '$VM' is already running."
+            sleep 2
+            return
+            ;;
+        "paused")
+            virsh -c qemu:///system resume "$VM" || die "Failed to resume VM."
+            echo "✓ VM '$VM' resumed."
+            sleep 1
+            return
+            ;;
+        "undefined")
+            echo "VM '$VM' does not exist."
+            sleep 2
+            return
+            ;;
+    esac
+
+    virsh start "$VM" || die "Failed to start VM."
+
+    if [[ -f "$STATE_FILE" ]]; then
+        local count=0
+        while IFS= read -r line; do
+            if [[ -z "$line" ]]; then
+                continue
+            fi
+
+            local vendor="${line%%:*}"
+            local product="${line#*:}"
+            if [[ "$vendor" == "$line" ]]; then
+                continue
+            fi
+
+            if [[ "$vendor" == "$XBOX_VENDOR" && "$product" == "$XBOX_PRODUCT" ]]; then
+                continue
+            fi
+
+            local tmp_xml=$(mktemp /tmp/usb-vm-XXXXXX.xml)
+            cat > "$tmp_xml" <<DEVXML
+<hostdev mode='subsystem' type='usb' managed='yes'>
+  <source>
+    <vendor id='0x${vendor}'/>
+    <product id='0x${product}'/>
+  </source>
+</hostdev>
+DEVXML
+
+            if virsh attach-device "$VM" "$tmp_xml" &>/dev/null; then
+                ((++count))
+            else
+                echo "Failed to attach $vendor:$product — device may not be connected."
+            fi
+
+            rm -f "$tmp_xml"
+        done < "$STATE_FILE"
+
+        if [[ $count -gt 0 ]]; then
+            echo "✓ $count USB device(s) attached to VM."
+        fi
+    fi
+
+    if [[ -f "$XBOX_ATTACH_FILE" ]] && [[ -n "$(find_xbox_path)" ]] && ! xbox_in_vm; then
+        echo "Attaching Xbox controller to VM..."
+        if xbox_attach_with_reset; then
+            echo "✓ Xbox controller attached to VM."
+        else
+            echo "⚠ Could not attach Xbox controller."
+        fi
+    fi
+
+    rm -f "$XBOX_BLACKLIST" 2>/dev/null
+    touch "$VM_ACTIVE_FILE"
+
+    echo ""
+    echo "✓ VM '$VM' is running."
+}
+
+# Save boot GPU if this is the first run after boot
+if [[ ! -f "$BOOT_GPU_FILE" ]]; then
+    current_gpu > "$BOOT_GPU_FILE"
+fi
+
+# Remove Xbox controller entries from state file to hide from USB menu
+if [[ -f "$STATE_FILE" ]]; then
+    sed -i "/^${XBOX_VENDOR}:${XBOX_PRODUCT}$/d" "$STATE_FILE"
+fi
+
+while true; do
+    clear
+
+    start_label="Start"
+    if reboot_needed; then
+        start_label="Start                  (host reboot needed)"
+    fi
+
+    xbox_label="Attach Xbox Controller"
+    if [[ -f "$XBOX_ATTACH_FILE" ]]; then
+        xbox_label="$xbox_label (enabled)"
+    else
+        xbox_label="$xbox_label (disabled)"
+    fi
+
+    if vm_is_active; then
+        pause_label="Pause VM"
+        if vm_is_paused; then
+            pause_label="Resume VM"
+        fi
+
+        menu_items=(
+            "Connect"
+            "$pause_label"
+            "Shutdown"
+            "Attach GPU             ($(current_gpu) selected)"
+            "$xbox_label"
+            "Attach USB             ($(count_usb_state) selected)"
+            "Exit"
+        )
+    elif [[ -f "$VM_ACTIVE_FILE" ]]; then
+        menu_items=(
+            "Cleanup"
+            "$start_label"
+            "Attach GPU             ($(current_gpu) selected)"
+            "$xbox_label"
+            "Attach USB             ($(count_usb_state) selected)"
+            "Exit"
+        )
+    else
+        menu_items=(
+            "$start_label"
+            "Attach GPU             ($(current_gpu) selected)"
+            "$xbox_label"
+            "Attach USB             ($(count_usb_state) selected)"
+            "Exit"
+        )
+    fi
+
+    CHOICE=$(gum choose \
+        --header "Windows 10 VM Manager" \
+        "${menu_items[@]}") || exit 0
+
+    case "$CHOICE" in
+        "Cleanup")
+            do_cleanup
+            ;;
+        "Start"*)
+            do_start_vm
+            ;;
+        "Connect")
+            do_connect_vm
+            ;;
+        "Shutdown"*)
+            do_shutdown_vm
+            ;;
+        "Pause VM"* | "Resume VM"*)
+            do_toggle_pause
+            ;;
+        "Attach GPU"*)
+            if vm_is_running; then
+                vm_settings_block
+                continue
+            fi
+
+            boot_gpu_name=$(cat "$BOOT_GPU_FILE")
+            rtx_label="RTX 4060"
+            if [[ "$boot_gpu_name" == "$rtx_label" ]]; then
+                rtx_label="RTX 4060  (boot)"
+            fi
+            
+            gtx_label="GTX 960"
+            if [[ "$boot_gpu_name" == "$gtx_label" ]]; then
+                gtx_label="GTX 960  (boot)"
+            fi
+
+            gpu_choice=$(gum choose "$rtx_label" "$gtx_label" "Cancel" --header "Select GPU for passthrough") || continue
+            case "$gpu_choice" in
+                *"4060"*)
+                    do_gpu_toggle "4060"
+                    ;;
+                *"960"*)
+                    do_gpu_toggle "960"
+                    ;;
+            esac
+            ;;
+        "Attach Xbox Controller"*)
+            if vm_is_running; then
+                vm_settings_block
+                continue
+            fi
+            do_toggle_xbox
+            ;;
+        "Attach USB"*)
+            if vm_is_running; then
+                vm_settings_block
+                continue
+            fi
+            do_usb_list
+            ;;
+        "Exit")
+            exit 0
+            ;;
+    esac
+done

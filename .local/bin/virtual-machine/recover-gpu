@@ -1,0 +1,28 @@
+#!/bin/bash
+set -euo pipefail
+
+# Script to unbind GPUs from VFIO and rebuild initramfs
+
+VFIO_CONF="/etc/modprobe.d/vfio.conf"
+
+[[ $EUID -eq 0 ]] && echo "Running as root" || exec sudo "$0" "$@"
+
+if [[ ! -f "$VFIO_CONF" ]]; then
+    echo "File $VFIO_CONF does not exist. Nothing to do."
+    exit 0
+fi
+
+cp "$VFIO_CONF" "$VFIO_CONF.bak"
+
+sed -i 's/^options vfio-pci ids=/#&/' "$VFIO_CONF"
+
+echo "✓ All VFIO options commented out in $VFIO_CONF"
+echo "  Backup saved as $VFIO_CONF.bak"
+
+if command -v mkinitcpio &>/dev/null; then
+    mkinitcpio -P &>/dev/null && echo "✓ initramfs rebuilt" || echo "⚠ mkinitcpio failed"
+fi
+
+echo ""
+echo "No GPUs will be claimed at next boot."
+echo "Reboot to apply."
