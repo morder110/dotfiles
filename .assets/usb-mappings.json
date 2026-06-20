@@ -1,0 +1,62 @@
+{
+  "045e:0b00": {
+    "name": "Halo Xbox Elite",
+    "type": "controller",
+    "image-path": "",
+    "is-system": false
+  },
+  "046d:c095": {
+    "name": "Logitech G502 X PLUS",
+    "type": "mouse",
+    "image-path": "",
+    "is-system": false
+  },
+  "0c45:8006": {
+    "name": "XVX Izakaya",
+    "type": "keyboard",
+    "image-path": "",
+    "is-system": false
+  },
+  "04e8:4001": {
+    "name": "Samsung T7 500GB",
+    "type": "storage",
+    "image-path": "",
+    "is-system": false
+  },
+  "046d:0aaa": {
+    "name": "Logitech G PRO X",
+    "type": "headset",
+    "image-path": "",
+    "is-system": false
+  },
+  "1d6b:0002": {
+    "name": "USB 2.0 Root Hub",
+    "type": "hub",
+    "image-path": "",
+    "is-system": true
+  },
+  "1d6b:0003": {
+    "name": "USB 3.0 Root Hub",
+    "type": "hub",
+    "image-path": "",
+    "is-system": true
+  },
+  "05e3:0610": {
+    "name": "Genesys Logic Hub (USB 2.0)",
+    "type": "hub",
+    "image-path": "",
+    "is-system": true
+  },
+  "05e3:0612": {
+    "name": "Genesys Logic Hub (USB 3.0)",
+    "type": "hub",
+    "image-path": "",
+    "is-system": true
+  },
+  "8087:0aaa": {
+    "name": "Intel Bluetooth 9460/9560",
+    "type": "bluetooth",
+    "image-path": "",
+    "is-system": true
+  }
+}
