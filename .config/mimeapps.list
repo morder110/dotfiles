@@ -25,20 +25,20 @@ x-scheme-handler/unknown=waterfox.desktop
 inode/directory=thunar.desktop
 
 # --- Zipped/Compressed Files ---
-application/zip=ark.desktop
+application/zip=7zFM.desktop;
 
 # Tarballs (compressed and uncompressed)
-application/x-tar=ark.desktop
-application/gzip=ark.desktop
-application/x-gzip=ark.desktop
-application/x-bzip2=ark.desktop
-application/x-xz=ark.desktop
-application/x-lzip=ark.desktop
-application/x-lzma=ark.desktop
-application/x-archive=ark.desktop
+application/x-tar=7zFM.desktop
+application/gzip=7zFM.desktop
+application/x-gzip=7zFM.desktop
+application/x-bzip2=7zFM.desktop
+application/x-xz=7zFM.desktop
+application/x-lzip=7zFM.desktop
+application/x-lzma=7zFM.desktop
+application/x-archive=7zFM.desktop
 
-application/x-7z-compressed=ark.desktop
-application/vnd.rar=ark.desktop
+application/x-7z-compressed=7zFM.desktop
+application/vnd.rar=7zFM.desktop
 
 # --- Code/Text Editor ---
 text/plain=code.desktop
