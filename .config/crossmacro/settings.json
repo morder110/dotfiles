@@ -1,16 +1,21 @@
 {
   "enableTrayIcon": true,
+  "startMinimized": false,
   "playbackSpeed": 1.9000000000000001,
-  "isLooping": true,
+  "isLooping": false,
   "loopCount": 10,
   "loopDelayMs": 0,
+  "useRandomLoopDelay": false,
+  "loopDelayMinMs": 0,
+  "loopDelayMaxMs": 0,
   "countdownSeconds": 0,
   "isMouseRecordingEnabled": true,
   "isKeyboardRecordingEnabled": true,
-  "forceRelativeCoordinates": true,
+  "forceRelativeCoordinates": false,
   "skipInitialZeroZero": true,
   "enableTextExpansion": false,
   "checkForUpdates": false,
   "logLevel": "Debug",
-  "theme": "Classic"
+  "theme": "Classic",
+  "language": "en"
 }
