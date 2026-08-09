@@ -3,6 +3,8 @@ export VISUAL=helix visudo
 export FCEDIT=helix
 export BROWSER=waterfox
 
+export GPG_TTY=$(tty)
+
 export SUDO_PROMPT='password: '
 export SUDO_EDITOR="$EDITOR"
 
