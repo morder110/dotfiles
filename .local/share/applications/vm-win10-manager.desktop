@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=Windows 10 VM Manager
+Exec=alacritty -t vm-win10-manager -e /home/morder/.local/bin/virtual-machine/win10-vm-manager
+Terminal=false
+Categories=System;
