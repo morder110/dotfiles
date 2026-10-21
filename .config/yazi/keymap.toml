@@ -45,12 +45,12 @@ keymap = [
 	{ on = "<Tab>", run = "spot", desc = "Spot hovered file" },
 
 	# Operation
-	{ on = [ "o", "t" ], run = 'shell -- if [ -d "%s1" ]; then thunar "%s1"; else thunar "$(dirname "%s1")"; fi', desc = "Thunar" },
-	{ on = [ "o", "c" ], run = 'shell -- code "%s1"', desc = "code" },
-	{ on = [ "o", "n" ], run = 'shell -- nano "%s1"', desc = "nano" },
-	{ on = [ "o", "N" ], run = 'shell --block -- sudo env "PATH=$PATH" nano "%s1"', desc = "nano (sudo)" },
+	{ on = [ "o", "t" ], run = 'shell -- if [ -d %s1 ]; then thunar %s1; else thunar %d1; fi', desc = "Thunar" },
+	{ on = [ "o", "c" ], run = "shell -- code %s1", desc = "VSCode" },
+	{ on = [ "o", "n" ], run = "shell --block -- nano %s1", desc = "Nano" },
+	{ on = [ "o", "N" ], run = 'shell --block -- sudo env "PATH=$PATH" nano %s1', desc = "Nano (sudo)" },
 	{ on = [ "o", "o" ], run = "open", desc = "Default" },
-	{ on = [ "o", "O" ], run = 'shell -- sudo env "PATH=$PATH" xdg-open "%s1"', desc = "Default (sudo)" },
+	{ on = [ "o", "O" ], run = 'shell --block -- sudo env "PATH=$PATH" xdg-open %s1', desc = "Default (sudo)" },
 
     { on = "<Enter>",   run = "plugin smart-enter", 		 desc = "Enter the directory, or open selected files" },
 	{ on = "<O>", 		run = "open --interactive",          desc = "Open selected files interactively" },
@@ -74,8 +74,8 @@ keymap = [
 	{ on = "s",         run = "search --via=fd",             desc = "Search files by name via fd" },
 	{ on = "S",         run = "search --via=rg",             desc = "Search files by content via ripgrep" },
 	{ on = "<C-s>",     run = "escape --search",             desc = "Cancel the ongoing search" },
-	{ on = "z",         run = "plugin fzf",                  desc = "Jump to a file/directory via fzf" },
-	{ on = "Z",         run = "plugin zoxide",               desc = "Jump to a directory via zoxide" },
+	{ on = "z",         run = "plugin zoxide",               desc = "Jump to a directory via zoxide" },
+	{ on = "Z",         run = "plugin fzf",                  desc = "Jump to a file/directory via fzf" },
 
 	# Linemode
 	{ on = [ "m", "s" ], run = "linemode size",        desc = "Linemode: size" },
@@ -123,7 +123,7 @@ keymap = [
 	{ on = [ "g", "r" ],       run = "cd /run/media/morder", desc = "/run/media/morder" },
 	{ on = [ "g", "t" ],       run = "cd /tmp",   		 	 desc = "/tmp" },
 	{ on = [ "g", "<Space>" ], run = "cd --interactive", 	 desc = "Jump interactively" },
-	{ on = [ "g", "f" ],       run = "follow",           	 desc = "Follow hovered symlink" },
+	{ on = [ "g", "f" ],       run = "follow",           	 desc = "Follow symlink" },
 
 	# Tabs
 	{ on = "<C-t>", run = "tab_create --current", desc = "Create a new tab with CWD" },
@@ -151,22 +151,22 @@ keymap = [
 	{ on = "<F1>", run = "help", desc = "Open help" },
 
 	# Plugins
-	{ on = "C", run = "plugin compress", desc = "Archive selected files" },
-	{ on = ".", run = "plugin what-size", desc = "Calculate size of selection or hovered" },
+	{ on = "A", run = "plugin compress", desc = "Archive selected files" },
+	{ on = "<S-Tab>", run = "plugin what-size", desc = "Calculate size of selection or hovered" },
     { on = "<A-e>", run = "plugin sudo", desc = "Toggle Sudo" },
 	{ on = "R", run = "plugin recycle-bin", desc = "Open Recycle Bin menu" },
 
 	# Sudo
-	{ on = [ "e", "o" ],         run = "plugin sudo -- open",                        desc = "Open selected files as sudo" },
-	{ on = [ "e", "O" ],         run = "plugin sudo -- open --interactive",          desc = "Open selected files interactively as sudo" },
-	{ on = [ "e", "y" ],         run = "plugin sudo -- yank",                        desc = "Yank selected files (copy) as sudo" },
-	{ on = [ "e", "x" ],         run = "plugin sudo -- yank --cut",                  desc = "Yank selected files (cut) as sudo" },
-	{ on = [ "e", "p" ],         run = "plugin sudo -- paste",                       desc = "Paste yanked files as sudo" },
-	{ on = [ "e", "P" ],         run = "plugin sudo -- paste --force",               desc = "Paste yanked files (overwrite if the destination exists) as sudo" },
-	{ on = [ "e", "d" ],         run = "plugin sudo -- remove",                      desc = "Trash selected files as sudo" },
-	{ on = [ "e", "D" ],         run = "plugin sudo -- remove --permanently",        desc = "Permanently delete selected files as sudo" },
-	{ on = [ "e", "a" ],         run = "plugin sudo -- create",                      desc = "Create a file (ends with / for directories) as sudo" },
-	{ on = [ "e", "r" ],         run = "plugin sudo -- rename --cursor=before_ext",  desc = "Rename selected file(s) as sudo" },
+	{ on = [ "e", "o" ],         run = "plugin sudo -- open",                        desc = "Open as sudo" },
+	{ on = [ "e", "O" ],         run = "plugin sudo -- open --interactive",          desc = "Open interactively as sudo" },
+	{ on = [ "e", "y" ],         run = "plugin sudo -- yank",                        desc = "Yank as sudo" },
+	{ on = [ "e", "x" ],         run = "plugin sudo -- yank --cut",                  desc = "Cut as sudo" },
+	{ on = [ "e", "p" ],         run = "plugin sudo -- paste",                       desc = "Paste as sudo" },
+	{ on = [ "e", "P" ],         run = "plugin sudo -- paste --force",               desc = "Paste as sudo (force)" },
+	{ on = [ "e", "d" ],         run = "plugin sudo -- remove",                      desc = "Trash as sudo" },
+	{ on = [ "e", "D" ],         run = "plugin sudo -- remove --permanently",        desc = "Delete permanently as sudo" },
+	{ on = [ "e", "a" ],         run = "plugin sudo -- create",                      desc = "Create as sudo" },
+	{ on = [ "e", "r" ],         run = "plugin sudo -- rename --cursor=before_ext",  desc = "Rename as sudo" },
 
 ]
 

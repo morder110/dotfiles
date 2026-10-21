@@ -1,9 +1,4 @@
 [[plugin.deps]]
-use = "KKV9/compress"
-rev = "cb6e8ec"
-hash = "424ada4807b20ccd4fc85d1d7c26d1e4"
-
-[[plugin.deps]]
 use = "pirafrank/what-size"
 rev = "179ebf6"
 hash = "57056b9728006881d580ccabe8154a9c"
@@ -34,11 +29,6 @@ rev = "1962818"
 hash = "3e023d31f29201efdac2a6ae35fedb78"
 
 [[plugin.deps]]
-use = "yazi-rs/plugins:full-border"
-rev = "1962818"
-hash = "6fa6a05a81c98dd000fbca3cca6e9682"
-
-[[plugin.deps]]
 use = "yazi-rs/plugins:toggle-pane"
 rev = "1962818"
 hash = "4c0260feb50ea2437380690ffc241da7"
@@ -52,6 +42,16 @@ hash = "8714306b5cac6359edbacbf545fbd691"
 use = "boydaihungst/restore"
 rev = "0e08704"
 hash = "e4d7c06510b4fe5f64ae31fbb4e017d6"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:full-border"
+rev = "9166202"
+hash = "f281261ff04ad7ec867c3f802a50835f"
+
+[[plugin.deps]]
+use = "KKV9/compress"
+rev = "80e5268"
+hash = "868db729374b97871bc30b96d0e9061f"
 
 [flavor]
 deps = []

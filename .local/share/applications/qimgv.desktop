@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Name=Qimgv
+GenericName=Image Viewer
+Comment=Qt image viewer
+Exec=qimgv %f
+Icon=qimgv
+Terminal=false
+NoDisplay=true
+Type=Application
+Categories=Qt;Graphics;Viewer;
+MimeType=video/webm;image/jpeg;image/gif;image/png;image/bmp;image/webp;image/svg+xml;image/tiff;image/x-icon;image/vnd.microsoft.icon;
+Keywords=image;view;qimgv;picture;gif;jpeg;webm;

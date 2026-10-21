@@ -36,7 +36,6 @@ application/x-xz=7zFM.desktop
 application/x-lzip=7zFM.desktop
 application/x-lzma=7zFM.desktop
 application/x-archive=7zFM.desktop
-
 application/x-7z-compressed=7zFM.desktop
 application/vnd.rar=7zFM.desktop
 
@@ -62,7 +61,6 @@ text/x-ruby=code.desktop
 text/x-go=code.desktop
 text/rust=code.desktop
 text/x-java=code.desktop
-# application/x-java=code.desktop
 application/x-php=code.desktop
 application/x-shellscript=code.desktop
 application/json=code.desktop
@@ -79,23 +77,24 @@ text/tab-separated-values=code.desktop
 text/markdown=obsidian.desktop
 text/x-readme=code.desktop
 
-
 # --- Images ---
-image/jpeg=imv.desktop
-image/png=imv.desktop
-image/gif=imv.desktop
-image/webp=imv.desktop
-image/svg+xml=imv.desktop
-
-# Catch-all
-image/*=imv.desktop
+image/jpeg=qimgv.desktop
+image/jpg=qimgv.desktop
+image/pjpeg=qimgv.desktop
+image/png=qimgv.desktop
+image/gif=qimgv.desktop
+image/webp=qimgv.desktop
+image/svg+xml=qimgv.desktop
+image/bmp=qimgv.desktop
+image/tiff=qimgv.desktop
+image/x-icon=qimgv.desktop
+image/vnd.microsoft.icon=qimgv.desktop
 
 # --- Video/Audio ---
 video/mp4=mpv.desktop
 video/mkv=mpv.desktop
 video/ogg=mpv.desktop
 video/webm=mpv.desktop
-
 # Catch-all
 video/*=mpv.desktop
 
@@ -112,6 +111,34 @@ audio/*=mpv.desktop
 # --- PDF ---
 application/pdf=waterfox.desktop
 
+# --- Documents ---
+application/vnd.oasis.opendocument.text=libreoffice-writer.desktop
+application/vnd.oasis.opendocument.text-template=libreoffice-writer.desktop
+application/vnd.oasis.opendocument.text-master=libreoffice-writer.desktop
+application/vnd.oasis.opendocument.graphics=libreoffice-draw.desktop
+application/vnd.oasis.opendocument.graphics-template=libreoffice-draw.desktop
+application/vnd.oasis.opendocument.spreadsheet=libreoffice-calc.desktop
+application/vnd.oasis.opendocument.spreadsheet-template=libreoffice-calc.desktop
+application/vnd.oasis.opendocument.presentation=libreoffice-impress.desktop
+application/vnd.oasis.opendocument.presentation-template=libreoffice-impress.desktop
+application/vnd.oasis.opendocument.formula=libreoffice-math.desktop
+application/vnd.oasis.opendocument.database=libreoffice-base.desktop
+application/vnd.oasis.opendocument.chart=libreoffice-calc.desktop
+application/vnd.oasis.opendocument.image=libreoffice-draw.desktop
+application/vnd.openxmlformats-officedocument.wordprocessingml.document=libreoffice-writer.desktop
+application/vnd.openxmlformats-officedocument.wordprocessingml.template=libreoffice-writer.desktop
+application/vnd.openxmlformats-officedocument.spreadsheetml.sheet=libreoffice-calc.desktop
+application/vnd.openxmlformats-officedocument.spreadsheetml.template=libreoffice-calc.desktop
+application/vnd.openxmlformats-officedocument.presentationml.presentation=libreoffice-impress.desktop
+application/vnd.openxmlformats-officedocument.presentationml.slideshow=libreoffice-impress.desktop
+application/vnd.openxmlformats-officedocument.presentationml.template=libreoffice-impress.desktop
+application/msword=libreoffice-writer.desktop
+application/msexcel=libreoffice-calc.desktop
+application/vnd.ms-excel=libreoffice-calc.desktop
+application/vnd.ms-powerpoint=libreoffice-impress.desktop
+application/rtf=libreoffice-writer.desktop
+text/rtf=libreoffice-writer.desktop
+
 # --- Email (mailto: links) ---
 x-scheme-handler/mailto=thunderbird.desktop
 
@@ -122,32 +149,6 @@ x-scheme-handler/magnet=transmission-gtk.desktop
 application/vnd.flatpak=flatpak-installer.desktop
 application/vnd.flatpak.ref=flatpak-installer.desktop
 application/vnd.flatpak.repo=flatpak-installer.desktop
-
-# --- Font ---
-# font/collection
-# font/otf
-# font/ttf
-# font/woff
-# font/woff2
-# application/font-woff
-# application/font-tdpfr
-# application/vnd.ms-fontobject
-# application/x-font-afm
-# application/x-font-bdf
-# application/x-font-dos
-# application/x-font-framemaker
-# application/x-font-libgrx
-# application/x-font-linux-psf
-# application/x-font-pcf
-# application/x-font-snf
-# application/x-font-speedo
-# application/x-font-sunos-news
-# application/x-font-tex
-# application/x-font-tex-tfm
-# application/x-font-ttx
-# application/x-font-type1
-# application/x-font-vfont
-# application/x-gz-font-linux-psf
 
 # --- Osu ---
 application/x-osu-beatmap-archive=sh.ppy.osu.desktop
@@ -164,11 +165,23 @@ x-scheme-handler/discord=vesktop.desktop
 application/octet-stream=bless.desktop
 x-scheme-handler/jetbrains=jetbrainsd.desktop
 x-scheme-handler/ror2mm=r2modman.desktop
+application/x-zerosize=code.desktop
 
 # ------------------------------------------------
 
 [Added Associations]
 # --- Web Browser ---
+image/svg+xml=waterfox.desktop;inkscape.desktop;
+image/jpeg=waterfox.desktop;pinta.desktop;
+image/jpg=waterfox.desktop;pinta.desktop;
+image/pjpeg=waterfox.desktop;pinta.desktop;
+image/png=swappy.desktop;waterfox.desktop;pinta.desktop;
+image/gif=waterfox.desktop;pinta.desktop;
+image/webp=waterfox.desktop;pinta.desktop;
+image/bmp=waterfox.desktop;pinta.desktop;
+image/tiff=waterfox.desktop;pinta.desktop;
+image/x-icon=waterfox.desktop;pinta.desktop;
+image/vnd.microsoft.icon=waterfox.desktop;pinta.desktop;
 text/html=waterfox.desktop
 
 x-scheme-handler/http=chromium.desktop
@@ -179,11 +192,6 @@ text/html=chromium.desktop
 
 # --- Other ---
 application/octet-stream=bless.desktop;
-
-# Don't know how this works
 image/x-xcf=yazi.desktop;
-image/*=com.github.PintaProject.Pinta.desktop
-image/*=gimp.desktop
-image/*=waterfox.desktop
-
 text/markdown=obsidian.desktop
+application/x-zerosize=code.desktop;

@@ -20,51 +20,35 @@
 local get_selected_paths = ya.sync(function(state)
     local result = {}
     if cx and cx.active and cx.active.selected then
-        for _, url in pairs(cx.active.selected) do
-            result[#result + 1] = url
+        -- Since Yazi v26.8.15, DDS events return File objects
+        -- instead of Url from __pairs().
+        for _, file in pairs(cx.active.selected) do
+            result[#result + 1] = file.url or file
         end
     end
     return result
 end)
 -- }}}1
--- Get current working directory in sync context {{{1
-local get_cwd = ya.sync(function(state)
-    if cx and cx.active and cx.active.current and cx.active.current.cwd then
-        return cx.active.current.cwd
-    end
-    return nil
+-- Get hovered path in sync context {{{1
+local get_hovered_path = ya.sync(function(state)
+    local hovered = cx and cx.active and cx.active.current and cx.active.current.hovered
+    return hovered and hovered.url or nil
 end)
 -- }}}1
--- Function to get paths of selected files or current directory {{{1
+-- Function to get selected paths, or the hovered path if nothing is selected {{{1
 --- @param selected table Table of selected urls
---- @return paths table Table of selected urls
+--- @return paths table Table of urls
 local function get_paths(selected)
-    -- If no files are selected, get current directory
-    if #selected == 0 then
-        local paths = {}
-        -- Try fs.cwd() first (async, optimized for slow devices)
-        local cwd, err = fs.cwd()
-        if cwd then
-            paths[1] = cwd
-        else
-            -- Fallback to cx.active.current.cwd (via sync block)
-            local sync_cwd = get_cwd()
-            if sync_cwd then
-                paths[1] = sync_cwd
-            else
-                ya.notify {
-                    title = "What size",
-                    content = "Cannot get current working directory: " .. (err or "unknown error"),
-                    timeout = 5,
-                    level = "error",
-                }
-            end
-        end
-        return paths
-    else
-        -- This variable is a table of urls already
+    if #selected > 0 then
         return selected
     end
+
+    local hovered = get_hovered_path()
+    if hovered then
+        return { hovered }
+    end
+
+    return {}
 end
 -- }}}1
 -- Function to get total size using Yazi's fs.calc_size API {{{1
@@ -73,7 +57,17 @@ end
 local function get_total_size(items)
     local total = 0
     for _, url in ipairs(items) do
-        local it = fs.calc_size(url)
+        local it, err = fs.calc_size(url)
+        if not it then
+            ya.notify({
+                title = "What size",
+                content = "Failed to calculate size: " .. tostring(err or "unknown error"),
+                timeout = 5,
+                level = "error",
+            })
+            return nil
+        end
+
         while true do
             local next = it:recv()
             if next then
@@ -109,7 +103,7 @@ end)
 -- }}}1
 -- Get selecting state {{{1
 local get_selected = ya.sync(function()
-    return (not cx.active.mode.is_visual) and (#cx.active.selected ~= 0)
+    return cx.active.mode.is_normal and (#cx.active.selected ~= 0)
 end)
 -- }}}1
 -- Set separators {{{1
@@ -176,10 +170,9 @@ return {
 
         local selected = get_selected_paths()
         local prepend_msg
-        -- Keep showing the size after CWD calculation (no selections)
         if #selected == 0 then
             set_state("is_held", true)
-            prepend_msg = "Current Dir: "
+            prepend_msg = "Hovered: "
         else
             set_state("is_held", false)
             prepend_msg = "Selected: "
@@ -189,7 +182,7 @@ return {
         if not items or #items == 0 then
             ya.notify {
                 title = "What size",
-                content = "Failed to get paths",
+                content = "No hovered file or directory",
                 timeout = 5,
             }
             return

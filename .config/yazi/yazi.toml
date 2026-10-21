@@ -34,22 +34,31 @@ ueberzug_offset = [ 0, 0, 0, 0 ]
 edit = [
 	# TODO: Chcek out EDITOR variable
 	# { run = "${EDITOR:-vi} %s", desc = "$EDITOR",      for = "unix", block = true },
-	{ run = 'code "$1" && $(hyprctl -j activeworkspace | jq ".id == 4") || hyprctl dispatch workspace 4 1>/dev/null', desc = "code", block = true, for = "unix" }, # TODO: Fix windowrules so that alert moves instead of this
+	{ run = "code %s; hyprctl -j activeworkspace | jq -e '.id == 4' >/dev/null || hyprctl dispatch workspace 4 1>/dev/null", desc = "VSCode", block = true, for = "unix" }, # TODO: Fix windowrules so that alert moves instead of this
 
 ]
 play = [
 	# TODO: Configure play after media player has been set up
-	{ run = 'mpv --force-window "$@"', orphan = true, for = "unix" },
+	{ run = "mpv --force-window %s", orphan = true, for = "unix" },
 	{ run = "mediainfo %s1; echo 'Press enter to exit'; read _", block = true, desc = "Show media info", for = "unix" },
 ]
 open = [
     # TODO: Make `xdg-open` open with Alacritty when opening folder
 	{ run = "xdg-open %s1", desc = "Open", for = "linux" },
 ]
+browser = [
+	{ run = "waterfox %s1", desc = "Browser", orphan = true, for = "linux" },
+]
+pinta = [
+	{ run = "pinta %s1", desc = "Pinta", orphan = true, for = "linux" },
+]
+inkscape = [
+	{ run = "inkscape %s1", desc = "Inkscape", orphan = true, for = "linux" },
+]
 reveal = [
-	{ run = 'if [ -d "$1" ]; then thunar "$1"; else thunar "$(dirname "$1")"; fi', desc = "Thunar", orphan = true, for = "linux" },
-	{ run = 'if [ -d "$1" ]; then alacritty --working-directory "$1"; else alacritty --working-directory "$(dirname "$1")"; fi', desc = "Alacritty", orphan = true, for = "linux" },
-	# { run = 'xdg-open "$(dirname "$1")"', desc = "Reveal (1)", for = "linux" },
+	{ run = "if [ -d %s1 ]; then thunar %s1; else thunar %d1; fi", desc = "Thunar", orphan = true, for = "linux" },
+	{ run = "if [ -d %s1 ]; then alacritty --working-directory %s1; else alacritty --working-directory %d1; fi", desc = "Alacritty", orphan = true, for = "linux" },
+	# { run = "xdg-open %d1", desc = "Reveal (1)", for = "linux" },
 	# { run = "xdg-open %d1", desc = "Reveal (2)", for = "linux" },
 	# TODO: Replace exiftool with having the info about the file/directory be displayed in the preview panel (split the preview panel into top half, preview and bottom half file info)
 	# { run = "clear; exiftool %s1; echo 'Press enter to exit'; read _", desc = "Show EXIF", for = "unix", block = true },
@@ -64,25 +73,28 @@ download = [
 ]
 
 nano = [
-	{ run = 'nano "$1"', desc = "nano", block = true, for = "unix" },
+	{ run = "nano %s", desc = "Nano", block = true, for = "unix" },
 ]
 
 ratarmount =[
-	{ run = 'mn=$(mktemp -d); trap "fusermount -u \"$mn\"; rmdir \"$mn\"" EXIT; ratarmount --index-folders ~/.cache/ratarmount "$1" "$mn"; yazi "$mn"', desc = "Mount", block = true, for = "unix" },
+	{ run = 'mkdir -p "$HOME/.cache/ratarmount"; mn=$(mktemp -d); trap "fusermount3 -u \"$mn\" 2>/dev/null || fusermount -u \"$mn\" 2>/dev/null; rmdir \"$mn\" 2>/dev/null" EXIT; ratarmount --index-folders "$HOME/.cache/ratarmount" %s1 "$mn" || { echo "ratarmount failed"; read -r _; exit 1; }; yazi "$mn"', desc = "Mount", block = true, for = "unix" },
 ]
 
 
 [open]
 rules = [
 	# Folder
-	{ url = "*/", use = [ "edit", "open", "reveal" ] },
+	{ url = "*/", use = [ "edit", "reveal" ] },
 
 	# TODO: Fix syntax highlighting for:
 	# html, xml, and php. Especially variables and conditions to insert a vlaue e.g. `{{ variable }}`
 	# bibtex. bib works, but bibtex does not have an icon or syntax highlighting
 	# jsonc and json5. json works
 	# lua icon and syntax highlighting. luau syntax highlighting
-	
+
+	{ mime = "application/oasis.opendocument.*", use = [ "open", "reveal" ] },
+	{ mime = "application/openxmlformats-officedocument.*", use = [ "open", "reveal" ] },
+	{ mime = "{application/msword,application/msexcel,application/ms-word,application/ms-excel,application/ms-powerpoint,application/rtf,text/rtf}", use = [ "open", "reveal" ] },
 
 	# Text
 	{ mime = "text/*", use = [ "edit", "nano", "reveal" ] },
@@ -92,8 +104,12 @@ rules = [
 	{ mime = "*/javascript", use = [ "edit", "nano", "reveal" ] },
 	# Empty file
 	{ mime = "inode/empty", use = [ "edit", "nano", "reveal" ] },
+	# SVG
+	{ mime = "{image/svg+xml,image/svg+xml-compressed}", use = [ "open", "browser", "inkscape", "reveal" ] },
 	# Image
-	{ mime = "image/*", use = [ "open", "reveal" ] },
+	{ mime = "image/*", use = [ "open", "browser", "pinta", "reveal" ] },
+	# PDF
+	{ mime = "application/pdf", use = [ "open", "reveal" ] },
 	# Media
 	{ mime = "{audio,video}/*", use = [ "play", "reveal" ] },
 	# Archive
@@ -155,6 +171,7 @@ preloaders = [
 	# Font
 	{ mime = "font/*", run = "font" },
 	{ mime = "application/ms-opentype", run = "font" },
+	{ url = "*.{ttf,otf,ttc,woff,woff2}", run = "font" },
 ]
 # TODO: Make sure the previwers all work
 previewers = [
@@ -183,6 +200,7 @@ previewers = [
 	# Font
 	{ mime = "font/*", run = "font" },
 	{ mime = "application/ms-opentype", run = "font" },
+	{ url = "*.{ttf,otf,ttc,woff,woff2}", run = "font" },
 	# Empty file
 	{ mime = "inode/empty", run = "empty" },
 	# Virtual file system

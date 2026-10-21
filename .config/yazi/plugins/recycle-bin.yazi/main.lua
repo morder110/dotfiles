@@ -174,9 +174,7 @@ end)
 
 ---Clear the current selection in Yazi
 local function clear_selection()
-  -- Use Yazi's emit with version fallback to clear all selections
-  local manager = ya.emit or ya.mgr_emit or ya.manager_emit
-  manager("select_all", { state = false })
+  ya.emit("toggle_all", { state = "off" })
 end
 
 --=========== Utils =================================================
